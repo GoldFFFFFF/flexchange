@@ -1,0 +1,62 @@
+{
+  "pages": [
+    "pages/homepage/main",
+    "pages/shoppingCar/main",
+    "pages/post/main",
+    "pages/user/main",
+    "pages/user/forSale/main",
+    "pages/user/purchase/main",
+    "pages/user/setting/main",
+    "pages/user/sold/main"
+
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#999",
+    "backgroundColor": "#fafafa",
+    "selectedColor": "#333",
+    "borderStyle": "white",
+
+    "list": [{
+      "pagePath": "pages/homepage/main",
+      "iconPath": "static/tabs/homepage.png",
+      "selectedIconPath": "static/tabs/homepage.png"
+    }, {
+      "pagePath": "pages/post/main",
+      "iconPath": "static/tabs/plus.png",
+      "selectedIconPath": "static/tabs/plus.png"
+    }, {
+      "pagePath": "pages/shoppingCar/main",
+      "iconPath": "static/tabs/shoppingcar.png",
+      "selectedIconPath": "static/tabs/shoppingcar.png"
+    }, {
+      "pagePath": "pages/user/main",
+      "iconPath": "static/tabs/user.png",
+      "selectedIconPath": "static/tabs/user.png"
+    }],
+
+    "items": [{
+      "pagePath": "pages/homepage/main",
+      "icon": "static/tabs/homepage.png",
+      "activeIcon": "static/tabs/homepage.png"
+    }, {
+      "pagePath": "pages/post/main",
+      "icon": "static/tabs/plus.png",
+      "activeIcon": "static/tabs/plus.png"
+    }, {
+      "pagePath": "pages/user/main",
+      "icon": "static/tabs/user.png",
+      "activeIcon": "static/tabs/user.png"
+    }, {
+      "pagePath": "pages/shoppingCar/main",
+      "icon": "static/tabs/shoppingcar.png",
+      "activeIcon": "static/tabs/shoppingcar.png"
+    }],
+    "position": "bottom"
+  }
+}
