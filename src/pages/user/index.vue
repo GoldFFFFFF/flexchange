@@ -21,7 +21,7 @@
 
 export default {
   data: {
-    userName: 'Shelly'
+    userName: 'Shey'
   },
   methods: {
     toPurchase () {
