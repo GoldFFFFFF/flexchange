@@ -5,17 +5,17 @@
     <div class='title-name'>
       <span>Personal Shopping Cart</span>
     </div>
-
-    <div class='button' >
-      <button type="default" size="mini" bindtap="default" hover-class="button-hover" @click="bingEdit"> Edit</button>
+    
+    <div class='button' v-if='isHidden'>
+      <button type="default" size="mini" @click="bingBack"> Back</button>
     </div>
 
   </div>
-  <div class="post-divide-line" style="height: 1px;width:100%;">
-  </div>
-  <div class='' style='background:#F1F1F1;padding-top;10rpx;padding-bottom:5rpx;' v-for='item in cart_items' :key=item.name>
-    <compo bind:component_method="main_page_mehod" :cart_img='item.img' :cart_name='item.name' :cart_price='item.price' :cart_sellor='item.sellor' :cart_style='item.position' :cart_path='item.path'></compo>
+<div class="post-divide-line" style="height: 1px;width:100%;">
     </div>
+  <div class='item_part' style='background:#F1F1F1;padding-top;10rpx;padding-bottom:5rpx;' v-for='item in cart_items' :key=item.name>
+    <compo :isShow='false' :ishow='true' :cart_img='item.img' :cart_name='item.name' :cart_price='item.price' :cart_sellor='item.sellor' :cart_style='item.position' :cart_path='item.path'></compo>
+  </div>
 </div>
 
 </template>
@@ -25,6 +25,7 @@ import compo from '@/components/shopping-page-item'
 export default {
   data () {
     return {
+      isHidden: false,
       cart_items: [
         {img: '/static/images/Yukino.jpg', name: 'Yukinooos photo', price: '$100', sellor: 'Lingyun', position: '', path: '../itemPages/yukino/main'},
         {img: '/static/images/wolaopo.jpg', name: 'wolaopos photo', price: '$9999', sellor: 'Lingyun', position: '', path: '../itemPages/wolaopo/main'},
@@ -38,10 +39,16 @@ export default {
   components: {
     compo
   },
+  main_page_ontap (eventDetail) {
+    console.log(eventDetail)
+  },
   methods: {
-    bingEdit () {
-      const url = '../edit/main'
-      wx.navigateTo({url})
+    hotBtn () {
+      this.item_checked = true
+    },
+    bingBack () {
+      const url = '../shoppingCar/main'
+      wx.navigateBack({url})
     }
   },
   created () {
@@ -50,49 +57,10 @@ export default {
 }
 </script>
 <style>
-.bright789-text{
-  font-size: 40rpx;
-  line-height: 40px;
-  color: #ff0000;
-}
 .title{
   height:100%;
   display:flex;
 }
-.user_name{
-  position:absolute;
-  right:10px;
-  top:75px;
-  width:40%;
-  height:25%;
-  border-style:solid;
-}
-.pattern{
-  height:20%;
-  width:90%;
-  position:absolute;
-  top:60px;
-  left:10px;
-  border-style:dashed;
-  border-width:1px;
-  border-color:grey;
-}
-.page-section{
-  width: 100%;
-  margin-bottom: 60rpx;
-}
-.page-section_center{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-/*.this_item{
-  position:absolute;
-  padding-top:5px;
-  padding-left:5px;
-  width:100px;
-  height:100px;
-}*/
 .post-divide-line{
   background-color:#F1F1F1;
   width: 100%;
