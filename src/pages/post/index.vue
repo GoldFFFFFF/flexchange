@@ -14,18 +14,15 @@
         </div> -->
 
         <div >
-            <div class="post-area">
-                <textarea  id="post-text-area"  placeholder="Description..." ></textarea>
-            </div>
 
-            <div class="post-image" >
-                <div class="post-image-block" >
-                    <!-- <img class="post-image-remove" src="/static/icons/remove.png" /> -->
-                    <div class="post-image-container">
-                        <img style="width:100%;height:100%;" src="/static/icons/add.png" />
+            <div class="post-input">
+                    <textarea class="post-input-text" placeholder="Description..." :maxlength="-1" v-model="inputValue" />
+                    <div class="post-image-box" @tap="chooseImage" v-if="!imgTempPath">
+                        <div class="post-image-plus-h"></div>
+                        <div class="post-image-plus-v"></div>
                     </div>
-                    <input type="file" id="uploadImage" style="display:none;" accept="image/*"  />
-                </div>
+                    <img v-if="imgTempPath" :src="imgTempPath" mode="aspectFill" class="post-image-box" />
+                    <img src="/static/icons/remove.png" class="post-image-remove" @tap="removeImg" v-if="imgTempPath" />
             </div>
 
             <div style="width:100%;height:1px;background:#F1F1F1;"></div>
@@ -36,12 +33,12 @@
                         <span>Tag</span>
                     </div>
                     <div class="post-choice-right" style="position:absolute;right:0;width:50%;">
-                        <div class="post-tag-info">Computer</div>
-                        <img src="/static/icons/more.png" class="post-tag-enter" />
+                        <div class="post-tag-info" style="margin-right:10%;">Computer</div>
+                        <img src="/static/icons/more.png" class="post-tag-enter"/>
                     </div>
                 </div>
                 <div style="background-color:#FFF">
-                    <div class="post-divide-line" style="width:95%;margin-left:5%;"></div>
+                    <div class="post-divide-line" style="width:90%;margin-left:5%;"></div>
                 </div>
             
            
@@ -50,14 +47,15 @@
                 <div class="post-choice-left">
                     <span style="padding-left: 20%">Price</span>
                 </div>
-                <div class="post-choice-right">$100</div>
+                <textarea class="post-choice-input" placeholder="price..." :maxlength="-1" v-model="price" />
             </div>
 
             
             <div class="post-divide-line"></div>
-            <div class="post-submit" v-on:click="submitForm()">
-                
-                <span>{{btnText}}</span>
+            <div v-if="inputValue||imgTempPath" class="post-ready-submit" @click="submit">
+                <span>Confirm</span>
+            </div>
+            <div v-else class="post-submit" >
                 <span>Confirm</span>
             </div>
             <div style="height:70px;width:100%;background:#FFF;"></div>
@@ -72,7 +70,9 @@ import store from '@/global/store'
 export default {
   data () {
     return {
-
+      inputValue: '',
+      imgTempPath: '',
+      price: ''
     }
   },
   computed: {
@@ -81,11 +81,70 @@ export default {
     }
   },
   methods: {
-    increment () {
-      store.commit('increment')
+    chooseImage (e) {
+      var that = this
+      wx.chooseImage({
+        success: function (res) {
+          wx.showToast({
+            title: '正在上传',
+            icon: 'loading',
+            duration: 10000
+          })
+          // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+          that.files = that.files.concat(res.tempFilePaths)
+          let tempFilePaths = res.tempFilePaths[0]
+          that.imgTempPath = tempFilePaths
+          let fileTypeArray = tempFilePaths.split('.')
+          let fileType = fileTypeArray.pop(fileTypeArray.length - 1)
+          let accessId = 'LTAIgsXf1qhhbpmK'
+          let signature = '4KHs5DL/9/RuW2wEcToDaGYxCB8='
+          let policy = 'eyJleHBpcmF0aW9uIjoiMjAyMC0xMi0wMVQxMjowMDowMC4wMDBaIiwiY29uZGl0aW9ucyI6W1sic3RhcnRzLXdpdGgiLCIka2V5IiwiIl0seyJidWNrZXQiOiJ4anRsdXdhbGwtaW1hZ2UifSxbInN0YXJ0cy13aXRoIiwiJENvbnRlbnQtVHlwZSIsIiJdLFsiY29udGVudC1sZW5ndGgtcmFuZ2UiLDAsMTA0ODU3NjBdXX0='
+          let fileName = ''
+          let date = new Date()
+          let year = String(date.getFullYear())
+          let month = String(date.getMonth() + 1)
+          if (Number(month) < 10) month = '0' + month
+          for (var i = 0; i < 16; i++) fileName += Math.floor(Math.random() * 16).toString(16)
+          fileName = year + month + '/' + fileName + '.' + fileType
+          wx.uploadFile({
+            url: 'https://imgs.xjtluwall.com',
+            filePath: tempFilePaths,
+            name: 'file',
+            header: {
+              'Content-Type': 'multipart/form-data'
+            },
+            formData: {
+              name: tempFilePaths,
+              key: fileName,
+              policy: policy,
+              OSSAccessKeyId: accessId,
+              success_action_status: '200',
+              signature: signature,
+              'Content-Type': fileType
+            },
+            success: function (res) {
+              wx.hideToast()
+              that.imgLocal = fileName
+              wx.showToast({
+                title: '上传图片成功',
+                duration: 1000
+              })
+            },
+            fail: function (res) {
+              wx.hideToast()
+              that.imgLocal = ''
+              wx.showToast({
+                title: '上传失败，请重试',
+                image: '/static/icons/fail.png',
+                duration: 1500
+              })
+            }
+          })
+        }
+      })
     },
-    decrement () {
-      store.commit('decrement')
+    submit () {
+      console.log(this.inputValue)
     }
   }
 }
@@ -151,13 +210,67 @@ export default {
   margin-right: 5px;
 }
 
-.post-area{
+.post-input {
+  width: 345px;
+  height: 185px;
+  background: #ffffff;
+  border-radius: 9px;
+  padding: 15px 17px;
+  margin-bottom: 16px;
+  box-sizing: border-box;
+}
+
+.post-input-text {
+  width: 100%;
+  height: 80px;
+  font-size: 16px;
+  color: #333333;
+  line-height: 21px;
+}
+
+.post-image-box {
+  width: 70px;
+  height: 70px;
+  background:#F0F0F0;
+  border-radius: 5px;
+  margin-top: 5px;
+  position: relative;
+}
+
+.post-image-remove {
+  width:25px;
+  height:25px;
+  position:absolute;
+  top: 90px;
+  left: 87px;
+}
+
+.post-image-plus-h {
+  position: absolute;
+  background: #FFFFFF;
+  width: 40px;
+  height: 2px;
+  left: 15px;
+  top: 34px;
+}
+
+.post-image-plus-v {
+  position: relative;
+  background: #FFFFFF;
+  width: 2px;
+  height: 40px;
+  left: 34px;
+  top: 15px;
+}
+
+
+/* .post-area{
   background-color: #FFF;
   margin: 0;
   padding: 0;
-}
+} */
 
-#post-text-area{
+/* #post-text-area{
   width: 100%;
   min-height: 33vw;
   overflow: visible;
@@ -169,9 +282,9 @@ export default {
   border: none;
   resize: none;
   outline: none;
-}
+} */
 
-.post-image{
+/* .post-image{
   width: 100%;
   background-color: #FFF;
   border-bottom: 1px solid #F1F1F1;
@@ -205,7 +318,7 @@ export default {
   display: flex;
   align-items:center;
   justify-content:center;
-}
+} */
 
 .post-choice{
   width: 100%;
@@ -236,6 +349,14 @@ export default {
   display: flex;
   justify-content:center;
   align-items:center;
+}
+
+.post-choice-input{
+  width: 40%;
+  height: 40px;
+  font-size: 16px;
+  color: #333333;
+  line-height: 40px; 
 }
 
 .post-choice-text {
@@ -271,8 +392,26 @@ export default {
   width: 100%;
 }
 
+.post-ready-submit{
+  position:absolute;
+  bottom:50px;
+  left: 5%;
+  background-color: #fff;
+  width: 90%;
+  height: 46px;
+  color: #000;
+  border-radius: 4px;
+  display: flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 20px;
+  border: 1px solid #000;
+}
+
 .post-submit{
-  margin: 40px 0 0 5%;
+  position:absolute;
+  bottom:50px;
+  left: 5%;
   background-color: #fff;
   width: 90%;
   height: 46px;
@@ -285,9 +424,9 @@ export default {
   border: 1px solid #000;
 }
 
-.button-enable{
+/* .button-enable{
   background-color:rgb(53, 168, 230);
  color:#FFF;
-}
+} */
 </style>
 
