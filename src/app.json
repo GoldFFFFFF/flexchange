@@ -2,6 +2,10 @@
   "pages": [
     "pages/homepage/main",
     "pages/user/main",
+    "pages/user/forSale/main",
+    "pages/user/purchase/main",
+    "pages/user/setting/main",
+    "pages/user/sold/main",
     "pages/post/main",
     "pages/shoppingCar/main",
     "pages/search/main",
