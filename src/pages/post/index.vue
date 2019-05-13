@@ -27,7 +27,7 @@
 
             <div style="width:100%;height:1px;background:#F1F1F1;"></div>
             
-                <div class="post-choice">
+                <!-- <div class="post-choice">
                     <div class="post-choice-left" style="position:absolute;left:0;width:50%;">
                         <img class="post-choice-icon" src="/static/icons/tag.png" />
                         <span>Tag</span>
@@ -36,23 +36,50 @@
                         <div class="post-tag-info" style="margin-right:10%;">Computer</div>
                         <img src="/static/icons/more.png" class="post-tag-enter"/>
                     </div>
+                </div> -->
+
+                <div class="post-choice">
+                    <div class="post-choice-left" style="position:absolute;left:0;width:15%;">
+                        <!-- <img class="post-choice-icon" src="/static/icons/tag.png" /> -->
+                        <span style="padding-left: 30px">Tag</span>
+                    </div>
+                    <div class="post-choice-right" style="position:absolute;right:0;width:280px;">
+                        <div class="post-topic-choice-containner">
+                            <div class="post-topic-choice"
+                            v-for="tag in tags1"
+                            :key="tag.name"
+                            @:currentTopic="tag.name" >#{{tag.name}}</div>
+                            
+                        </div>
+                        <div class="post-topic-choice-containner">
+                            <div class="post-topic-choice"
+                            v-for="tag in tags2"
+                            :key="tag.name"
+                            @:currentTopic="tag.name" >#{{tag.name}}</div>
+                        </div>
+                        
+                    </div>
+                    
                 </div>
+
+
                 <div style="background-color:#FFF">
                     <div class="post-divide-line" style="width:90%;margin-left:5%;"></div>
                 </div>
+                
             
            
 
             <div class="post-choice">
                 <div class="post-choice-left">
-                    <span style="padding-left: 20%">Price</span>
+                    <span style="padding-left: 30px">Price</span>
                 </div>
                 <textarea class="post-choice-input" placeholder="price..." :maxlength="-1" v-model="price" />
             </div>
 
-            
+                  
             <div class="post-divide-line"></div>
-            <div v-if="inputValue||imgTempPath" class="post-ready-submit" @click="submit">
+            <div v-if="inputValue&&imgTempPath&&currentTopic" class="post-ready-submit" @click="submit">
                 <span>Confirm</span>
             </div>
             <div v-else class="post-submit" >
@@ -60,30 +87,56 @@
             </div>
             <div style="height:70px;width:100%;background:#FFF;"></div>
         </div>
-        <!-- <BottomBar v-if="!isReply" v-bind:this-page="2"></BottomBar> -->
+          
     </div>
 </template>
 
 <script>
-import store from '@/global/store'
 
 export default {
   data () {
     return {
       inputValue: '',
       imgTempPath: '',
-      price: ''
+      price: '',
+      tags: [
+        {id: 0, name: 'computer'},
+        {id: 1, name: 'bike'},
+        {id: 2, name: 'book'},
+        {id: 3, name: 'clothes'},
+        {id: 4, name: 'drinks'},
+        {id: 5, name: 'e-devices'},
+        {id: 6, name: 'forDome'},
+        {id: 7, name: 'others'}
+      ],
+      tags1: [
+        {id: 0, name: 'computer'},
+        {id: 1, name: 'bike'},
+        {id: 2, name: 'book'},
+        {id: 3, name: 'clothes'}
+      ],
+      tags2: [
+        {id: 4, name: 'drinks'},
+        {id: 5, name: 'e-devices'},
+        {id: 6, name: 'forDome'},
+        {id: 7, name: 'others'}
+      ],
+      currentTopic: ''
     }
   },
   computed: {
-    count () {
-      return store.state.count
+    user () {
+      return this.$store.state.user
+    },
+    token () {
+      return this.$store.state.token
     }
   },
   methods: {
     chooseImage (e) {
-      var that = this
+      var that = this // this指代问题，若调用了微信api， this会指向微信对象本身而非当前Vue实例
       wx.chooseImage({
+        count: 1,
         success: function (res) {
           wx.showToast({
             title: '正在上传',
@@ -91,24 +144,20 @@ export default {
             duration: 10000
           })
           // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-          that.files = that.files.concat(res.tempFilePaths)
-          let tempFilePaths = res.tempFilePaths[0]
+          // that.files = that.files.concat(res.tempFilePaths)
+          const tempFilePaths = res.tempFilePaths
           that.imgTempPath = tempFilePaths
-          let fileTypeArray = tempFilePaths.split('.')
-          let fileType = fileTypeArray.pop(fileTypeArray.length - 1)
-          let accessId = 'LTAIgsXf1qhhbpmK'
-          let signature = '4KHs5DL/9/RuW2wEcToDaGYxCB8='
-          let policy = 'eyJleHBpcmF0aW9uIjoiMjAyMC0xMi0wMVQxMjowMDowMC4wMDBaIiwiY29uZGl0aW9ucyI6W1sic3RhcnRzLXdpdGgiLCIka2V5IiwiIl0seyJidWNrZXQiOiJ4anRsdXdhbGwtaW1hZ2UifSxbInN0YXJ0cy13aXRoIiwiJENvbnRlbnQtVHlwZSIsIiJdLFsiY29udGVudC1sZW5ndGgtcmFuZ2UiLDAsMTA0ODU3NjBdXX0='
           let fileName = ''
           let date = new Date()
           let year = String(date.getFullYear())
           let month = String(date.getMonth() + 1)
           if (Number(month) < 10) month = '0' + month
           for (var i = 0; i < 16; i++) fileName += Math.floor(Math.random() * 16).toString(16)
-          fileName = year + month + '/' + fileName + '.' + fileType
+          fileName = year + month + '/' + fileName
+          // 云上存放图片的文件夹需要用时间命名，所以将其以切分成相应格式
           wx.uploadFile({
-            url: 'https://imgs.xjtluwall.com',
-            filePath: tempFilePaths,
+            url: 'http://www.flexange.cn',
+            filePath: tempFilePaths[0],
             name: 'file',
             header: {
               'Content-Type': 'multipart/form-data'
@@ -116,15 +165,12 @@ export default {
             formData: {
               name: tempFilePaths,
               key: fileName,
-              policy: policy,
-              OSSAccessKeyId: accessId,
-              success_action_status: '200',
-              signature: signature,
-              'Content-Type': fileType
+              success_action_status: '200'
+              // 'Content-Type': fileType // 在传form的时候，form的content-type对应文件格式，而http请求报头的content-type需要指定form
             },
             success: function (res) {
               wx.hideToast()
-              that.imgLocal = fileName
+              that.imgLocal = fileName // 将页面数据与文件名绑定，从而好判断用户是否成功 上传了图片
               wx.showToast({
                 title: '上传图片成功',
                 duration: 1000
@@ -144,7 +190,61 @@ export default {
       })
     },
     submit () {
-      console.log(this.inputValue)
+      // console.log(this.inputValue)
+      if (this.inputValue && this.imgLocal && this.currentTopic) { // 在用户输入值或者上传图片的时候才能上传
+        wx.showToast({
+          title: '正在发布',
+          icon: 'loading',
+          duration: 8000
+        })
+        let form = {
+          user: this.user._id,
+          discription: this.inputValue,
+          tag: this.currentTopic,
+          imgUrl: this.imgLocal ? [this.imgLocal] : []
+        }
+        this.$ajax.post({
+          token: this.token,
+          data: form,
+          url: `http://www.flexange.cn/post`
+        }).then((res) => {
+          wx.hideToast()
+          if (res.statusCode === 200) {
+            wx.showToast({
+              title: '发布成功',
+              duration: 1200
+            })
+            this.init()
+            setTimeout(() => {
+              this.$emit('posted')
+            }, 400)
+          } else {
+            wx.showToast({
+              title: '发布失败，请重试',
+              image: '/static/icons/fail.png'
+            })
+          }
+        }).catch((err) => {
+          wx.hideToast()
+          if (err.statusCode === 415) {
+            wx.showModal({
+              showCancel: false,
+              content: '发布失败，请斟酌用语，或者检查发表的图片哦'
+            })
+          } else {
+            wx.showModal({
+              showCancel: false,
+              content: '发布失败，错误消息：' + (err.data.message || '')
+            })
+          }
+        })
+      }
+    },
+    init () {
+      this.inputValue = ''
+      this.imgTempPath = ''
+      this.price = ''
+      this.currentTopic = ''
     }
   }
 }
@@ -263,63 +363,6 @@ export default {
   top: 15px;
 }
 
-
-/* .post-area{
-  background-color: #FFF;
-  margin: 0;
-  padding: 0;
-} */
-
-/* #post-text-area{
-  width: 100%;
-  min-height: 33vw;
-  overflow: visible;
-  box-sizing: border-box;
-  padding: 12px 12px 10px 15px;
-  font-size: 17px;
-  line-height: 23px;
-  color: #333;
-  border: none;
-  resize: none;
-  outline: none;
-} */
-
-/* .post-image{
-  width: 100%;
-  background-color: #FFF;
-  border-bottom: 1px solid #F1F1F1;
-  box-sizing: border-box;
-  padding: 5px 15px 12px 15px;
-}
-
-.post-image-block{
-  position: relative;
-  width: 24vw;
-  height: 24vw;
-  display: flex;
-  align-items:center;
-  justify-content:center;
-  border: 1px dashed #E1E1E1;
-  overflow: visible;
-}
-
-.post-image-remove {
-  position: absolute;
-  right: -12px;
-  top: -12px;
-  height: 26px;
-  width: 26px;
-}
-
-.post-image-container {
-  height:100%;
-  width:100%;
-  overflow:hidden;
-  display: flex;
-  align-items:center;
-  justify-content:center;
-} */
-
 .post-choice{
   width: 100%;
   height: 40px;
@@ -344,11 +387,26 @@ export default {
 }
 
 .post-choice-right{
-  width: 24%;
   height: 40px;
   display: flex;
-  justify-content:center;
-  align-items:center;
+  flex-direction: column;
+}
+
+.post-topic-choice-containner{
+  display: flex;
+  flex-direction: row;
+}
+
+.post-topic-choice{
+  padding-left: 2px;
+  padding-right: 2px;
+  margin: 2px;
+  border-radius: 4px;
+  height: 16px;
+  line-height: 14px;
+  background-color:aliceblue;
+  color: #888;
+  font-size: 14px;
 }
 
 .post-choice-input{
