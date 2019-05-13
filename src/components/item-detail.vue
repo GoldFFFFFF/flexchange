@@ -3,12 +3,12 @@
     <!-- for itemPage 商品详情的组件 -->
     <div class="item-info">
       <div class='item-img'>
-        <image :src="img_path" class='item' ></image>
+        <image :src="imgUrl" class='item' ></image>
       </div>
       <div class='sellor-info'>
         <div class='sellor-photo-name'>
           <img src='/static/images/user.png' class='sellor-photo'>
-          <span style="padding:20px">{{sellor}}</span>
+          <span style="padding:20px">{{seller}}</span>
         </div>
         <div class='price-part'>
           <div class='Item-price'>Price: 
@@ -29,7 +29,7 @@
       <div class="info-title" >
         <span style="padding-left:5%;">Description:</span>
       </div>
-      <textarea  id="info-text-area"  :value="content">
+      <textarea  id="info-text-area"  :value="description">
       </textarea>
     </div>
   </div>
@@ -39,10 +39,10 @@
 
 export default {
   props: {
-    content: {
+    description: {
       type: String
     },
-    sellor: {
+    seller: {
       type: String
     },
     price: {
@@ -51,7 +51,7 @@ export default {
     name: {
       type: String
     },
-    img_path: {
+    imgUrl: {
       type: String
     }
   },
