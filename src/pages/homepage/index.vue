@@ -74,7 +74,10 @@ export default {
         {img_path: '/static/images/huiye.jpg', item_name: 'haishiwolaopo', item_price: '$99', page_path: '../itemPages/huiye/main'},
         {img_path: '/static/images/mengwang.jpg', item_name: 'doushiwolaopo', item_price: '$199', page_path: '../itemPages/mengwang/main'},
         {img_path: '/static/images/qianhua.jpg', item_name: 'woquandouyao', item_price: '$299', page_path: '../itemPages/qianhua/main'},
-        {img_path: '/static/images/qianfantian.jpg', item_name: 'qianfantian', item_price: '$399', page_path: '../itemPages/qianfantian/main'}
+        {img_path: '/static/images/qianfantian.jpg', item_name: 'qianfantian', item_price: '$399', page_path: '../itemPages/qianfantian/main'},
+        {img_path: '/static/images/buou.jpg', item_name: 'Buou', item_price: '$5000', page_path: '../itemPages/buou/main'},
+        {img_path: '/static/images/jumao.jpeg', item_name: 'JuCat', item_price: '$1000', page_path: '../itemPages/jumao/main'},
+        {img_path: '/static/images/yingduan.jpg', item_name: 'Yingduan', item_price: '$3000', page_path: '../itemPages/yingduan/main'}
       ]
     }
   },
