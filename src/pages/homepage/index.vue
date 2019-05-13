@@ -20,7 +20,12 @@
     </div>
 
     <div class='show_item' v-for='item in items' :key=item.name>
-          <mainItem :img_path='item.img_path' :item_name='item.item_name' :item_price='item.item_price' :item_style='item.position' :page_path='item.page_path'></mainItem>
+          <mainItem :img_path='item.img_path' 
+                    :item_name='item.item_name' 
+                    :item_price='item.item_price' 
+                    :item_style='item.position' 
+                    :page_path='item.page_path'>
+          </mainItem>
       </div>
     <!--div class='swiper-bg'>
     <div class="image-swiper">
@@ -68,17 +73,18 @@ export default {
       //   '/static/images/2.jpg',
       //   '/static/images/3.jpg'
       // ],
-      items: [
-        {img_path: '/static/images/Yukino.jpg', item_name: 'Yukinoooo', item_price: '$100', page_path: '../itemPages/yukino/main'},
-        {img_path: '/static/images/wolaopo.jpg', item_name: 'wolaopo', item_price: '$9999', page_path: '../itemPages/wolaopo/main'},
-        {img_path: '/static/images/huiye.jpg', item_name: 'haishiwolaopo', item_price: '$99', page_path: '../itemPages/huiye/main'},
-        {img_path: '/static/images/mengwang.jpg', item_name: 'doushiwolaopo', item_price: '$199', page_path: '../itemPages/mengwang/main'},
-        {img_path: '/static/images/qianhua.jpg', item_name: 'woquandouyao', item_price: '$299', page_path: '../itemPages/qianhua/main'},
-        {img_path: '/static/images/qianfantian.jpg', item_name: 'qianfantian', item_price: '$399', page_path: '../itemPages/qianfantian/main'},
-        {img_path: '/static/images/buou.jpg', item_name: 'Buou', item_price: '$5000', page_path: '../itemPages/buou/main'},
-        {img_path: '/static/images/jumao.jpeg', item_name: 'JuCat', item_price: '$1000', page_path: '../itemPages/jumao/main'},
-        {img_path: '/static/images/yingduan.jpg', item_name: 'Yingduan', item_price: '$3000', page_path: '../itemPages/yingduan/main'}
-      ]
+      items: []
+      // items: [
+      //   {img_path: '/static/images/Yukino.jpg', item_name: 'Yukinoooo', item_price: '$100', page_path: '../itemPages/yukino/main'},
+      //   {img_path: '/static/images/wolaopo.jpg', item_name: 'wolaopo', item_price: '$9999', page_path: '../itemPages/wolaopo/main'},
+      //   {img_path: '/static/images/huiye.jpg', item_name: 'haishiwolaopo', item_price: '$99', page_path: '../itemPages/huiye/main'},
+      //   {img_path: '/static/images/mengwang.jpg', item_name: 'doushiwolaopo', item_price: '$199', page_path: '../itemPages/mengwang/main'},
+      //   {img_path: '/static/images/qianhua.jpg', item_name: 'woquandouyao', item_price: '$299', page_path: '../itemPages/qianhua/main'},
+      //   {img_path: '/static/images/qianfantian.jpg', item_name: 'qianfantian', item_price: '$399', page_path: '../itemPages/qianfantian/main'},
+      //   {img_path: '/static/images/buou.jpg', item_name: 'Buou', item_price: '$5000', page_path: '../itemPages/buou/main'},
+      //   {img_path: '/static/images/jumao.jpeg', item_name: 'JuCat', item_price: '$1000', page_path: '../itemPages/jumao/main'},
+      //   {img_path: '/static/images/yingduan.jpg', item_name: 'Yingduan', item_price: '$3000', page_path: '../itemPages/yingduan/main'}
+      // ]
     }
   },
   components: {
@@ -97,9 +103,22 @@ export default {
       wx.switchTab({ url })
     }
   },
-
   created () {
-    // let app = getApp()
+    this.$ajax.get({
+      url: 'http://203.195.164.28:3000/api/item'
+    }).then((res) => {
+      this.items = res.data.resultMessage
+      setTimeout(() => {
+        this.freshPos = 0
+      }, 300)
+      wx.hideToast()
+    }).catch((err) => {
+      console.log(err)
+      setTimeout(() => {
+        this.freshPos = 0
+      }, 300)
+      wx.hideToast()
+    })
   }
 }
 </script>

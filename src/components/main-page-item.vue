@@ -1,7 +1,7 @@
 <template>
 <!-- 主页商品的组件，包括商品照片，名称和价格 -->
 <div class='page'>
-  <div class='inner' @click="bindDetails(page_path)" >
+  <div class='inner' @click="goToDetail()" >
     <image :src="img_path" class='image' ></image>
     <div class='name'>
       <span style="font-size:20px">{{item_name}}</span>
@@ -54,12 +54,19 @@ export default {
     }
   },
   methods: {
+    goToDetail () {
+      wx.navigateTo({
+        url: '/pages/item/main?price=' + this.item_price + '&img_path=' + this.img_path
+      })
+    },
     bindDetails (path) {
       const url = path
       wx.navigateTo({url})
     }
   },
   data: {
+    return () {
+    }
   }
 }
 </script>
