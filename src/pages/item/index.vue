@@ -1,39 +1,45 @@
 <template>
   <div>
-    <comp :content="content"
+    <detail :description="description"
           :name="name" 
           :price="price"
-          :sellor="sellor" 
-          :img_path="img_path">
-    </comp>
+          :seller="seller" 
+          :imgUrl="imgUrl">
+    </detail>
   </div>
 </template>
 
 <script>
-import comp from '@/components/item-detail'
+import detail from '@/components/item-detail'
 export default {
   data () {
     return {
-      content: '',
-      sellor: '',
-      price: '',
+      type: '',
+      imgUrl: '',
+      itemId: '',
       name: '',
-      img_path: ''
+      price: '',
+      description: '',
+      status: '',
+      seller: ''
     }
   },
   components: {
-    comp
+    detail
   },
 
   created () {
     // let app = getApp()
   },
   onLoad: function (options) {
-    this.content = options.content
-    this.sellor = options.sellor
-    this.price = options.price
+    this.type = options.type
+    this.imgUrl = options.imgUrl
+    this.itemId = options.itemId
     this.name = options.name
-    this.img_path = options.img_path
+    this.price = options.price
+    this.description = options.description
+    this.status = options.status
+    this.seller = options.seller
   }
 
 }
