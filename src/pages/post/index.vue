@@ -151,7 +151,7 @@ export default {
           fileName = year + month + '/' + fileName
           // 云上存放图片的文件夹需要用时间命名，所以将其以切分成相应格式
           wx.uploadFile({
-            url: 'http://www.flexange.cn',
+            url: 'http://www.flexange.cn:3000/api/item/image',
             filePath: tempFilePaths[0],
             name: 'file',
             header: {
