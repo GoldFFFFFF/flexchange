@@ -59,17 +59,12 @@
                         </div>
                         
                     </div>
-                    
                 </div>
-
 
                 <div style="background-color:#FFF">
                     <div class="post-divide-line" style="width:90%;margin-left:5%;"></div>
                 </div>
-                
-            
            
-
             <div class="post-choice">
                 <div class="post-choice-left">
                     <span style="padding-left: 30px">Price</span>
@@ -206,7 +201,7 @@ export default {
         this.$ajax.post({
           token: this.token,
           data: form,
-          url: `http://www.flexange.cn:8080/api/item/post`
+          url: `http://www.flexange.cn:3000/api/item/post`
         }).then((res) => {
           wx.hideToast()
           if (res.statusCode === 200) {
