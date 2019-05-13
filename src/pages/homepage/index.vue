@@ -20,10 +20,10 @@
     </div>
 
     <div class='show_item' v-for='item in items' :key=item.name>
-          <mainItem :img_path='item.img_path' 
-                    :item_name='item.item_name' 
-                    :item_price='item.item_price' 
-                    :item_style='item.position' 
+          <mainItem :img_path='item.imgUrl' 
+                    :item_name='item.name' 
+                    :item_price='item.price' 
+                    :item_style='item.type' 
                     :page_path='item.page_path'>
           </mainItem>
       </div>
@@ -103,11 +103,12 @@ export default {
       wx.switchTab({ url })
     }
   },
-  created () {
+  onLoad () {
     this.$ajax.get({
       url: 'http://203.195.164.28:3000/api/item'
     }).then((res) => {
       this.items = res.data.resultMessage
+      console.log(this.items)
       setTimeout(() => {
         this.freshPos = 0
       }, 300)
