@@ -27,7 +27,7 @@
 
             <div style="width:100%;height:1px;background:#F1F1F1;"></div>
             
-                <div class="post-choice">
+                <!-- <div class="post-choice">
                     <div class="post-choice-left" style="position:absolute;left:0;width:50%;">
                         <img class="post-choice-icon" src="/static/icons/tag.png" />
                         <span>Tag</span>
@@ -36,21 +36,48 @@
                         <div class="post-tag-info" style="margin-right:10%;">Computer</div>
                         <img src="/static/icons/more.png" class="post-tag-enter"/>
                     </div>
+                </div> -->
+
+                <div class="post-choice">
+                    <div class="post-choice-left" style="position:absolute;left:0;width:15%;">
+                        <!-- <img class="post-choice-icon" src="/static/icons/tag.png" /> -->
+                        <span style="padding-left: 30px">Tag</span>
+                    </div>
+                    <div class="post-choice-right" style="position:absolute;right:0;width:280px;">
+                        <div class="post-topic-choice-containner">
+                            <div class="post-topic-choice"
+                            v-for="tag in tags1"
+                            :key="tag.name"
+                            @:currentTopic="tag.name" >#{{tag.name}}</div>
+                            
+                        </div>
+                        <div class="post-topic-choice-containner">
+                            <div class="post-topic-choice"
+                            v-for="tag in tags2"
+                            :key="tag.name"
+                            @:currentTopic="tag.name" >#{{tag.name}}</div>
+                        </div>
+                        
+                    </div>
+                    
                 </div>
+
+
                 <div style="background-color:#FFF">
                     <div class="post-divide-line" style="width:90%;margin-left:5%;"></div>
                 </div>
+                
             
            
 
             <div class="post-choice">
                 <div class="post-choice-left">
-                    <span style="padding-left: 20%">Price</span>
+                    <span style="padding-left: 30px">Price</span>
                 </div>
                 <textarea class="post-choice-input" placeholder="price..." :maxlength="-1" v-model="price" />
             </div>
 
-            
+                  
             <div class="post-divide-line"></div>
             <div v-if="inputValue||imgTempPath" class="post-ready-submit" @click="submit">
                 <span>Confirm</span>
@@ -60,24 +87,47 @@
             </div>
             <div style="height:70px;width:100%;background:#FFF;"></div>
         </div>
-        <!-- <BottomBar v-if="!isReply" v-bind:this-page="2"></BottomBar> -->
+          
     </div>
 </template>
 
 <script>
-import store from '@/global/store'
 
 export default {
   data () {
     return {
       inputValue: '',
       imgTempPath: '',
-      price: ''
+      price: '',
+      items: [{message: 'Foo'}, {message: 'Bar'}],
+      tags: [
+        {id: 0, name: 'computer'},
+        {id: 1, name: 'bike'},
+        {id: 2, name: 'book'},
+        {id: 3, name: 'clothes'},
+        {id: 4, name: 'drinks'},
+        {id: 5, name: 'e-devices'},
+        {id: 6, name: 'forDome'},
+        {id: 7, name: 'others'}
+      ],
+      tags1: [
+        {id: 0, name: 'computer'},
+        {id: 1, name: 'bike'},
+        {id: 2, name: 'book'},
+        {id: 3, name: 'clothes'}
+      ],
+      tags2: [
+        {id: 4, name: 'drinks'},
+        {id: 5, name: 'e-devices'},
+        {id: 6, name: 'forDome'},
+        {id: 7, name: 'others'}
+      ],
+      currentTopic: ''
     }
   },
   computed: {
-    count () {
-      return store.state.count
+    user () {
+      return this.$store.state.user
     }
   },
   methods: {
@@ -263,63 +313,6 @@ export default {
   top: 15px;
 }
 
-
-/* .post-area{
-  background-color: #FFF;
-  margin: 0;
-  padding: 0;
-} */
-
-/* #post-text-area{
-  width: 100%;
-  min-height: 33vw;
-  overflow: visible;
-  box-sizing: border-box;
-  padding: 12px 12px 10px 15px;
-  font-size: 17px;
-  line-height: 23px;
-  color: #333;
-  border: none;
-  resize: none;
-  outline: none;
-} */
-
-/* .post-image{
-  width: 100%;
-  background-color: #FFF;
-  border-bottom: 1px solid #F1F1F1;
-  box-sizing: border-box;
-  padding: 5px 15px 12px 15px;
-}
-
-.post-image-block{
-  position: relative;
-  width: 24vw;
-  height: 24vw;
-  display: flex;
-  align-items:center;
-  justify-content:center;
-  border: 1px dashed #E1E1E1;
-  overflow: visible;
-}
-
-.post-image-remove {
-  position: absolute;
-  right: -12px;
-  top: -12px;
-  height: 26px;
-  width: 26px;
-}
-
-.post-image-container {
-  height:100%;
-  width:100%;
-  overflow:hidden;
-  display: flex;
-  align-items:center;
-  justify-content:center;
-} */
-
 .post-choice{
   width: 100%;
   height: 40px;
@@ -344,11 +337,26 @@ export default {
 }
 
 .post-choice-right{
-  width: 24%;
   height: 40px;
   display: flex;
-  justify-content:center;
-  align-items:center;
+  flex-direction: column;
+}
+
+.post-topic-choice-containner{
+  display: flex;
+  flex-direction: row;
+}
+
+.post-topic-choice{
+  padding-left: 2px;
+  padding-right: 2px;
+  margin: 2px;
+  border-radius: 4px;
+  height: 16px;
+  line-height: 14px;
+  background-color:aliceblue;
+  color: #888;
+  font-size: 14px;
 }
 
 .post-choice-input{

@@ -12,6 +12,7 @@
       <div class="links" @click="toForSale"> My For Sale </div>
       <div class="links" @click="toSold"> My Sold </div>
       <div class="links" @click="toSetting"> Setting </div>
+      
   </div>
   
 
