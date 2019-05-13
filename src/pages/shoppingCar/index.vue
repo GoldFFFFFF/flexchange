@@ -11,32 +11,40 @@
     </div>
 
   </div>
-  <div class="post-divide-line" style="height: 1px;width:100%;">
+  <div class="post-divide-line" style="height: 5px;width:100%;">
   </div>
-  <div class='' style='background:#F1F1F1;padding-top;10rpx;padding-bottom:5rpx;' v-for='item in cart_items' :key=item.name>
-    <compo bind:component_method="main_page_mehod" :cart_img='item.img' :cart_name='item.name' :cart_price='item.price' :cart_sellor='item.sellor' :cart_style='item.position' :cart_path='item.path'></compo>
-    </div>
+  <div class='' style='padding-top;10rpx;padding-bottom:5rpx;' v-for='item in cart_items' :key=item.name>
+    <shopCar bind:component_method="main_page_mehod" 
+    :imgUrl='item.img' 
+    :name='item.name' 
+    :price='item.price' 
+    :seller='item.seller'
+    :cart_path='item.path'></shopCar>
+    <div class="post-divide-line" style="height: 5px;width:100%;">
+  </div>
+  </div>
+  
 </div>
 
 </template>
 
 <script>
-import compo from '@/components/shopping-page-item'
+import shopCar from '@/components/shopping-page-item'
 export default {
   data () {
     return {
       cart_items: [
-        {img: '/static/images/Yukino.jpg', name: 'Yukinooos photo', price: '$100', sellor: 'Lingyun', position: '', path: '../itemPages/yukino/main'},
-        {img: '/static/images/wolaopo.jpg', name: 'wolaopos photo', price: '$9999', sellor: 'Lingyun', position: '', path: '../itemPages/wolaopo/main'},
-        {img: '/static/images/mengwang.jpg', name: 'Mengwang photo', price: '$199', sellor: 'Lingyun', position: '', path: '../itemPages/mengwang/main'},
-        {img: '/static/images/huiye.jpg', name: 'huiye photo', price: '$99', sellor: 'Lingyun', position: '', path: '../itemPages/huiye/main'},
-        {img: '/static/images/qianhua.jpg', name: 'qianhua photo', price: '$299', sellor: 'Lingyun', position: '', path: '../itemPages/qianhua/main'},
-        {img: '/static/images/qianfantian.jpg', name: 'qianfantian photo', price: '$399', sellor: 'Lingyun', position: '', path: '../itemPages/qianfantian/main'}
+        {img: '/static/images/Yukino.jpg', name: 'Yukinooos photo', price: '$100', seller: 'Lingyun', path: '../itemPages/yukino/main'},
+        {img: '/static/images/wolaopo.jpg', name: 'wolaopos photo', price: '$9999', seller: 'Lingyun', path: '../itemPages/wolaopo/main'},
+        {img: '/static/images/mengwang.jpg', name: 'Mengwang photo', price: '$199', seller: 'Lingyun', path: '../itemPages/mengwang/main'},
+        {img: '/static/images/huiye.jpg', name: 'huiye photo', price: '$99', seller: 'Lingyun', path: '../itemPages/huiye/main'},
+        {img: '/static/images/qianhua.jpg', name: 'qianhua photo', price: '$299', seller: 'Lingyun', path: '../itemPages/qianhua/main'},
+        {img: '/static/images/qianfantian.jpg', name: 'qianfantian photo', price: '$399', seller: 'Lingyun', path: '../itemPages/qianfantian/main'}
       ]
     }
   },
   components: {
-    compo
+    shopCar
   },
   methods: {
     bingEdit () {

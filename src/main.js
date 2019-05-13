@@ -7,5 +7,6 @@ Vue.config.productionTip = false
 App.mpType = 'app'
 Vue.prototype.$store = store
 Vue.prototype.$ajax = ajax
+
 const app = new Vue(App)
 app.$mount()

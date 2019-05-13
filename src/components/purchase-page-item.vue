@@ -99,14 +99,14 @@ export default {
 }
 .sellor_name{
   position:absolute;
-  right:5%;
+  right:10%;
   margin-top:20%;
   border-style:solid;
 }
 .sellor_pattern{
   display:flex;
   height:20%;
-  width:100%;
+  width:90%;
   background:white;
   flex-direction:row;
 }
