@@ -16,7 +16,12 @@
     "pages/itemPages/huiye/main",
     "pages/itemPages/mengwang/main",
     "pages/itemPages/qianhua/main",
-    "pages/itemPages/qianfantian/main"
+    "pages/itemPages/qianfantian/main",
+    "pages/itemPages/buou/main",
+    "pages/itemPages/jumao/main",
+    "pages/itemPages/yingduan/main",
+    "pages/itemPages/pen/main",
+    "pages/itemPages/jiafei/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

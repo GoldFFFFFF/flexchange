@@ -1,81 +1,101 @@
 <template>
-  <div>
-      <div class="userinformation">
-        <div class="userName"> userName </div>
-        <div class="userImage">
-            <img src="/static/tabs/user.png">
-        </div>
-      </div>
+<div>
+  <div class='title'>
 
-      <message></message>
-      <!-- <div class="links"> {{message}} </div> -->
-      <div class="links"> My Purchase </div>
-      <div class="links"> My For Sale </div>
-      <div class="links"> My Sold </div>
+    <div class='title-name'>
+      <span>My Purchase</span>
+    </div>
   </div>
-  
+  <div class="post-divide-line" style="height: 3px;width:100%;">
+  </div>
+  <div class='' style='background:#F1F1F1;padding-top;10rpx;padding-bottom:5rpx;' v-for='item in cart_items' :key=item.name>
+    <compo :cart_img='item.img' :cart_name='item.name' :cart_price='item.price' :cart_sellor='item.sellor' :cart_buyer='item.buyer' :cart_style='item.position' :cart_path='item.path'></compo>
+    </div>
+</div>
 
 </template>
 
 <script>
-
-import message from '@/components/item'
+import compo from '@/components/purchase-page-item'
 export default {
-  data: {
-    i: ''
+  data () {
+    return {
+      cart_items: [
+        {img: '/static/images/pen.jpg', name: 'Pen photo', price: '$2', sellor: 'Lingyun', buyer: 'Shey', position: '', path: '../../itemPages/pen/main'}
+      ]
+    }
   },
   components: {
-    message
+    compo
   },
   methods: {
-
+    bingEdit () {
+      const url = '../../edit/main'
+      wx.navigateTo({url})
+    }
+  },
+  created () {
+    // let app = getApp()
   }
 }
 </script>
-
 <style>
-.userinformation{
-  background-color: #fff;
-  box-sizing: border-box;
-  padding-top: 10px;
-  border-radius: 17px;
-  margin-right: 16px;
-  margin-left:16px;
-  margin-top:16px;
-  margin-bottom:30Px;
+.bright789-text{
+  font-size: 40rpx;
+  line-height: 40px;
+  color: #ff0000;
+}
+.title{
+  height:100%;
+  display:flex;
+}
+.user_name{
+  position:absolute;
+  right:10px;
+  top:75px;
+  width:40%;
+  height:25%;
+  border-style:solid;
+}
+.pattern{
+  height:20%;
+  width:90%;
+  position:absolute;
+  top:60px;
+  left:10px;
+  border-style:dashed;
+  border-width:1px;
+  border-color:grey;
+}
+.page-section{
+  width: 100%;
+  margin-bottom: 60rpx;
+}
+.page-section_center{
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
 }
-
-.userName{
-  margin-top:5%;
-  margin-left:20%;
-  width:65%;
-  font-size:24;
+/*.this_item{
+  position:absolute;
+  padding-top:5px;
+  padding-left:5px;
+  width:100px;
+  height:100px;
+}*/
+.post-divide-line{
+  background-color:#F1F1F1;
+  width: 100%;
 }
-
-.userImage{
-  width:35%;
-  
+.title-name{
+  width:70%;
+  padding-top:0;
+  padding-left:10%;
 }
-.userImage img {
-  width:60px;
-  height: 60px;
+.button{
+  position:relative;
 }
-
-.links {
-  background-color: #fff;
-  box-sizing: border-box;
-  padding-top: 10px;
-  border-radius: 13px;
-  border-style: solid;
-  margin: 20px 25px 20px 25px;
-  box-shadow: 1.5px 1.5px 2px -0.5px rgba(32, 32, 32, 0.1);
-  display: flex;
-  flex-direction: row;
-  padding-left:10px;
-  font-size:12;
-  height: 45px;
+.button-hover{
+  background-color:red;
 }
-
 </style>
