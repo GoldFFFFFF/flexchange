@@ -26,21 +26,9 @@
             </div>
 
             <div style="width:100%;height:1px;background:#F1F1F1;"></div>
-            
-                <!-- <div class="post-choice">
-                    <div class="post-choice-left" style="position:absolute;left:0;width:50%;">
-                        <img class="post-choice-icon" src="/static/icons/tag.png" />
-                        <span>Tag</span>
-                    </div>
-                    <div class="post-choice-right" style="position:absolute;right:0;width:50%;">
-                        <div class="post-tag-info" style="margin-right:10%;">Computer</div>
-                        <img src="/static/icons/more.png" class="post-tag-enter"/>
-                    </div>
-                </div> -->
 
                 <div class="post-choice">
                     <div class="post-choice-left" style="position:absolute;left:0;width:15%;">
-                        <!-- <img class="post-choice-icon" src="/static/icons/tag.png" /> -->
                         <span style="padding-left: 30px">Tag</span>
                     </div>
                     <div class="post-choice-right" style="position:absolute;right:0;width:280px;">
@@ -48,14 +36,14 @@
                             <div class="post-topic-choice"
                             v-for="tag in tags1"
                             :key="tag.name"
-                            @:currentTopic="tag.name" >#{{tag.name}}</div>
+                            @:currentType="tag.name" >#{{tag.name}}</div>
                         </div>
-                        <div> {{currentTopic}}</div>
+                        
                         <div class="post-topic-choice-containner">
                             <div class="post-topic-choice"
                             v-for="tag in tags2"
                             :key="tag.name"
-                            @:currentTopic="tag.name" >#{{tag.name}}</div>
+                            @:currentType="tag.name" >#{{tag.name}}</div>
                         </div>
                         
                     </div>
@@ -71,9 +59,16 @@
                 </div>
                 <textarea class="post-choice-input" placeholder="price..." :maxlength="-1" v-model="price" />
             </div>
-
-                  
             <div class="post-divide-line"></div>
+
+            <div class="post-choice">
+                <div class="post-choice-left">
+                    <span style="padding-left: 30px">Name</span>
+                </div>
+                <textarea class="post-choice-input" placeholder="name..." :maxlength="-1" v-model="name" />
+            </div>
+            <div class="post-divide-line"></div>
+
             <div v-if="inputValue" class="post-ready-submit" @click="submit">
                 <span>Confirm</span>
             </div>
@@ -116,7 +111,8 @@ export default {
         {id: 6, name: 'forDome'},
         {id: 7, name: 'others'}
       ],
-      currentTopic: ''
+      name: '',
+      currentType: ''
     }
   },
   computed: {
@@ -187,16 +183,21 @@ export default {
     submit () {
       if (this.inputValue) { // 在用户输入值或者上传图片的时候才能上传
         console.log(this.inputValue)
+        console.log(this.currentType)
+        console.log(this.price)
+        console.log(this.name)
         wx.showToast({
           title: '正在发布',
           icon: 'loading',
           duration: 8000
         })
         let form = {
-          user: this.user._id,
-          discription: this.inputValue,
-          tag: this.currentTopic
-          // imgUrl: this.imgLocal ? [this.imgLocal] : []
+          imgUrl: this.imgTempPath,
+          name: this.name,
+          seller: this.user._id,
+          description: this.inputValue,
+          type: this.currentType,
+          status: false
         }
         this.$ajax.post({
           token: this.token,
@@ -239,7 +240,7 @@ export default {
       this.inputValue = ''
       this.imgTempPath = ''
       this.price = ''
-      this.currentTopic = ''
+      this.currentType = ''
     }
   }
 }

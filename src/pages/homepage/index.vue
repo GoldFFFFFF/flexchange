@@ -40,31 +40,7 @@ import mainItem from '@/components/main-page-item'
 export default {
   data () {
     return {
-      // indicatorDots: true,
-      // autoplay: true,
-      // interval: 5000,
-      // duration: 900,
-      // circular: true,
-      // imgUrls: [
-      //   '/static/images/Yukino.jpg',
-      //   '/static/images/wolaopo.jpg',
-      //   '/static/images/wolaopo3.jpg',
-      //   '/static/images/1.jpg',
-      //   '/static/images/2.jpg',
-      //   '/static/images/3.jpg'
-      // ],
       items: []
-      // items: [
-      //   {img_path: '/static/images/Yukino.jpg', item_name: 'Yukinoooo', item_price: '$100', page_path: '../itemPages/yukino/main'},
-      //   {img_path: '/static/images/wolaopo.jpg', item_name: 'wolaopo', item_price: '$9999', page_path: '../itemPages/wolaopo/main'},
-      //   {img_path: '/static/images/huiye.jpg', item_name: 'haishiwolaopo', item_price: '$99', page_path: '../itemPages/huiye/main'},
-      //   {img_path: '/static/images/mengwang.jpg', item_name: 'doushiwolaopo', item_price: '$199', page_path: '../itemPages/mengwang/main'},
-      //   {img_path: '/static/images/qianhua.jpg', item_name: 'woquandouyao', item_price: '$299', page_path: '../itemPages/qianhua/main'},
-      //   {img_path: '/static/images/qianfantian.jpg', item_name: 'qianfantian', item_price: '$399', page_path: '../itemPages/qianfantian/main'},
-      //   {img_path: '/static/images/buou.jpg', item_name: 'Buou', item_price: '$5000', page_path: '../itemPages/buou/main'},
-      //   {img_path: '/static/images/jumao.jpeg', item_name: 'JuCat', item_price: '$1000', page_path: '../itemPages/jumao/main'},
-      //   {img_path: '/static/images/yingduan.jpg', item_name: 'Yingduan', item_price: '$3000', page_path: '../itemPages/yingduan/main'}
-      // ]
     }
   },
   components: {
@@ -72,8 +48,6 @@ export default {
   },
   methods: {
     bindDetails () {
-      // const url = '../item/main'
-      // wx.navigateTo({url})
       wx.navigateTo({
         url: '../item/main'
       })
@@ -83,7 +57,7 @@ export default {
       wx.switchTab({ url })
     }
   },
-  onLoad () {
+  created () {
     this.$ajax.get({
       url: 'http://203.195.164.28:3000/api/item'
     }).then((res) => {
