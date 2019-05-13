@@ -7,11 +7,15 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    user: wx.getStorageSync('user') || {}
+    user: wx.getStorageSync('user') || {},
+    token: wx.getStorageSync('token') || ''
   },
   mutations: {
     setUser: (state, user) => {
       state.user = user
+    },
+    setToken: (state, token) => {
+      state.token = token
     }
   }
 })

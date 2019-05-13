@@ -79,7 +79,7 @@
 
                   
             <div class="post-divide-line"></div>
-            <div v-if="inputValue||imgTempPath" class="post-ready-submit" @click="submit">
+            <div v-if="inputValue&&imgTempPath&&currentTopic" class="post-ready-submit" @click="submit">
                 <span>Confirm</span>
             </div>
             <div v-else class="post-submit" >
@@ -99,7 +99,6 @@ export default {
       inputValue: '',
       imgTempPath: '',
       price: '',
-      items: [{message: 'Foo'}, {message: 'Bar'}],
       tags: [
         {id: 0, name: 'computer'},
         {id: 1, name: 'bike'},
@@ -128,12 +127,16 @@ export default {
   computed: {
     user () {
       return this.$store.state.user
+    },
+    token () {
+      return this.$store.state.token
     }
   },
   methods: {
     chooseImage (e) {
-      var that = this
+      var that = this // this指代问题，若调用了微信api， this会指向微信对象本身而非当前Vue实例
       wx.chooseImage({
+        count: 1,
         success: function (res) {
           wx.showToast({
             title: '正在上传',
@@ -141,24 +144,20 @@ export default {
             duration: 10000
           })
           // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-          that.files = that.files.concat(res.tempFilePaths)
-          let tempFilePaths = res.tempFilePaths[0]
+          // that.files = that.files.concat(res.tempFilePaths)
+          const tempFilePaths = res.tempFilePaths
           that.imgTempPath = tempFilePaths
-          let fileTypeArray = tempFilePaths.split('.')
-          let fileType = fileTypeArray.pop(fileTypeArray.length - 1)
-          let accessId = 'LTAIgsXf1qhhbpmK'
-          let signature = '4KHs5DL/9/RuW2wEcToDaGYxCB8='
-          let policy = 'eyJleHBpcmF0aW9uIjoiMjAyMC0xMi0wMVQxMjowMDowMC4wMDBaIiwiY29uZGl0aW9ucyI6W1sic3RhcnRzLXdpdGgiLCIka2V5IiwiIl0seyJidWNrZXQiOiJ4anRsdXdhbGwtaW1hZ2UifSxbInN0YXJ0cy13aXRoIiwiJENvbnRlbnQtVHlwZSIsIiJdLFsiY29udGVudC1sZW5ndGgtcmFuZ2UiLDAsMTA0ODU3NjBdXX0='
           let fileName = ''
           let date = new Date()
           let year = String(date.getFullYear())
           let month = String(date.getMonth() + 1)
           if (Number(month) < 10) month = '0' + month
           for (var i = 0; i < 16; i++) fileName += Math.floor(Math.random() * 16).toString(16)
-          fileName = year + month + '/' + fileName + '.' + fileType
+          fileName = year + month + '/' + fileName
+          // 云上存放图片的文件夹需要用时间命名，所以将其以切分成相应格式
           wx.uploadFile({
-            url: 'https://imgs.xjtluwall.com',
-            filePath: tempFilePaths,
+            url: 'http://www.flexange.cn',
+            filePath: tempFilePaths[0],
             name: 'file',
             header: {
               'Content-Type': 'multipart/form-data'
@@ -166,15 +165,12 @@ export default {
             formData: {
               name: tempFilePaths,
               key: fileName,
-              policy: policy,
-              OSSAccessKeyId: accessId,
-              success_action_status: '200',
-              signature: signature,
-              'Content-Type': fileType
+              success_action_status: '200'
+              // 'Content-Type': fileType // 在传form的时候，form的content-type对应文件格式，而http请求报头的content-type需要指定form
             },
             success: function (res) {
               wx.hideToast()
-              that.imgLocal = fileName
+              that.imgLocal = fileName // 将页面数据与文件名绑定，从而好判断用户是否成功 上传了图片
               wx.showToast({
                 title: '上传图片成功',
                 duration: 1000
@@ -194,7 +190,61 @@ export default {
       })
     },
     submit () {
-      console.log(this.inputValue)
+      // console.log(this.inputValue)
+      if (this.inputValue && this.imgLocal && this.currentTopic) { // 在用户输入值或者上传图片的时候才能上传
+        wx.showToast({
+          title: '正在发布',
+          icon: 'loading',
+          duration: 8000
+        })
+        let form = {
+          user: this.user._id,
+          discription: this.inputValue,
+          tag: this.currentTopic,
+          imgUrl: this.imgLocal ? [this.imgLocal] : []
+        }
+        this.$ajax.post({
+          token: this.token,
+          data: form,
+          url: `http://www.flexange.cn/post`
+        }).then((res) => {
+          wx.hideToast()
+          if (res.statusCode === 200) {
+            wx.showToast({
+              title: '发布成功',
+              duration: 1200
+            })
+            this.init()
+            setTimeout(() => {
+              this.$emit('posted')
+            }, 400)
+          } else {
+            wx.showToast({
+              title: '发布失败，请重试',
+              image: '/static/icons/fail.png'
+            })
+          }
+        }).catch((err) => {
+          wx.hideToast()
+          if (err.statusCode === 415) {
+            wx.showModal({
+              showCancel: false,
+              content: '发布失败，请斟酌用语，或者检查发表的图片哦'
+            })
+          } else {
+            wx.showModal({
+              showCancel: false,
+              content: '发布失败，错误消息：' + (err.data.message || '')
+            })
+          }
+        })
+      }
+    },
+    init () {
+      this.inputValue = ''
+      this.imgTempPath = ''
+      this.price = ''
+      this.currentTopic = ''
     }
   }
 }
