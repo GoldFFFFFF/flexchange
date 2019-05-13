@@ -20,35 +20,15 @@
     </div>
 
     <div class='show_item' v-for='item in items' :key=item.name>
-          <mainItem :img_path='item.imgUrl' 
-                    :item_name='item.name' 
-                    :item_price='item.price' 
-                    :item_style='item.type' 
-                    :page_path='item.page_path'>
+          <mainItem :imgUrl='item.imgUrl' 
+                    :name='item.name' 
+                    :price='item.price' 
+                    :type='item.type'
+                    :description='item.description'
+                    :status='item.status'
+                    :itemId='item._id'>
           </mainItem>
       </div>
-    <!--div class='swiper-bg'>
-    <div class="image-swiper">
-          <swiper :indicator-dots="indicatorDots" 
-            :autoplay="autoplay" 
-            :interval="interval" 
-            :duration="duration" 
-            :circular="circular"
-            :previous-margin="'75px'"
-            @change="swiperChange" 
-            @animationfinish="animationfinish">
-            <div v-for='item in imgUrls' :key='item.id'>
-              <swiper-item>
-                <image :src="item" class="slide-image" />
-              </swiper-item>
-            </div>
-          </swiper>
-        </div>
-    </div!-->
-      <!-- <comp img_path="/static/images/Yukino.jpg" item_name='Yukinooos photo' item_price='$100'></comp>
-      <div class='item-2' style='position:absolute;top:350px' @click='bindDetails'>
-        <comp img_path='/static/images/wolaopo.jpg' item_name='wolaopossss' item_price='$9999'></comp>
-      </div> -->
       
 </div>
 
