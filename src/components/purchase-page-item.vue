@@ -8,7 +8,7 @@
         <span style="color:cornflowerblue;font-size:20px;">{{cart_name}}</span>
         <span style="color:aqua;font-size:20px;">{{cart_price}}</span>
       </div>
-      <div class='sellor_name'><span style="font-size=15px;">Sellor: {{cart_sellor}}</span></div>
+      <div class='sellor_name'><span style="font-size=15px;">Sellor: {{cart_sellor}} Buyer: {{cart_buyer}}</span></div>
     </div>
   </div>
   <div class='checkbox'>
@@ -37,6 +37,9 @@ export default {
       type: String
     },
     cart_sellor: {
+      type: String
+    },
+    cart_buyer: {
       type: String
     },
     cart_price: {
@@ -96,7 +99,7 @@ export default {
 }
 .sellor_name{
   position:absolute;
-  right:10%;
+  right:5%;
   margin-top:20%;
   border-style:solid;
 }

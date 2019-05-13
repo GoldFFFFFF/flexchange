@@ -1,17 +1,25 @@
 <template>
   <div>
       <div class="userinformation">
-        <div class="userName"> userName </div>
+        <div class="userName"> Shey </div>
         <div class="userImage">
             <img src="/static/tabs/user.png">
         </div>
       </div>
 
-      <message></message>
-      <!-- <div class="links"> {{message}} </div> -->
-      <div class="links"> My Purchase </div>
-      <div class="links"> My For Sale </div>
-      <div class="links"> My Sold </div>
+      <div class="links">  
+        <div class='checkbox'>
+          <checkbox  @bindtap='ontap()' @click="click_btn" class='checkbox' true></checkbox>
+          <span false></span>
+        </div>New Message Alerts
+      </div>
+      <div class="links"> 
+        <div class='checkbox'>
+          <checkbox  @bindtap='ontap()' @click="click_btn" class='checkbox' true></checkbox>
+          <span false></span>
+        </div>Do Not Disturb 
+      </div>
+      <div class="links1" @click="bingLogout"> Log Out </div>
   </div>
   
 
@@ -24,16 +32,43 @@ export default {
   data: {
     i: ''
   },
+  props: {
+    isShow: {
+      type: String
+    },
+    ishow: {
+      type: String
+    }
+  },
   components: {
     message
   },
+  ontap () {
+    var eventDetail = {
+      isHide: this.isHidden
+    }
+    var eventOption = {
+      composed: true
+    }
+    this.triggerEvent('click_btn', eventDetail, eventOption)
+  },
   methods: {
-
+    bingLogout () {
+      const url = '../../itemPages/buou/main'
+      wx.navigateTo({url})
+    }
   }
 }
 </script>
 
 <style>
+.checkbox{
+  display:flex;
+  flex-direction:row;
+  padding-top: 0%;
+  padding-left: 1%;
+}
+
 .userinformation{
   background-color: #fff;
   box-sizing: border-box;
@@ -74,7 +109,21 @@ export default {
   display: flex;
   flex-direction: row;
   padding-left:10px;
-  font-size:12;
+  font-size: 12;
+  height: 45px;
+}
+.links1{
+  background-color: rgb(238, 138, 138);
+  box-sizing: border-box;
+  padding-top: 10px;
+  border-radius: 13px;
+  border-style: solid;
+  margin: 20px 25px 20px 25px;
+  box-shadow: 1.5px 1.5px 2px -0.5px rgba(32, 32, 32, 0.1);
+  display: flex;
+  flex-direction: row;
+  padding-left:10px;
+  font-size: 12;
   height: 45px;
 }
 
