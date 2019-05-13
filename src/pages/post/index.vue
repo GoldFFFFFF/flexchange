@@ -25,46 +25,46 @@
                     <img src="/static/icons/remove.png" class="post-image-remove" @tap="removeImg" v-if="imgTempPath" />
             </div>
 
-            <div style="width:100%;height:1px;background:#F1F1F1;"></div>
+            <div class="post-divide-line"></div>
 
-                <div class="post-choice">
-                    <div class="post-choice-left" style="position:absolute;left:0;width:15%;">
-                        <span style="padding-left: 30px">Tag</span>
-                    </div>
-                    <div class="post-choice-right" style="position:absolute;right:0;width:280px;">
-                        <div class="post-topic-choice-containner">
-                            <div class="post-topic-choice"
-                            v-for="tag in tags1"
-                            :key="tag.name"
-                            @:currentType="tag.name" >#{{tag.name}}</div>
-                        </div>
-                        
-                        <div class="post-topic-choice-containner">
-                            <div class="post-topic-choice"
-                            v-for="tag in tags2"
-                            :key="tag.name"
-                            @:currentType="tag.name" >#{{tag.name}}</div>
-                        </div>
-                        
-                    </div>
-                </div>
+            <div class="post-choice" style="height:80px">
+                <div class="post-choice-left" style="height:80px;line-height:80px;">Tag</div>
 
-                <div style="background-color:#FFF">
-                    <div class="post-divide-line" style="width:90%;margin-left:5%;"></div>
+                <div class="post-choice-right" style="height:80px">
+                    <div
+                      class="post-topic-choice-containner"
+                      v-for="type in tags"
+                      :key="type.name"
+                      @tap="currentType=type.name">
+                        <div :style="{color:currentType===type.name?'#888':'#000'}" class="post-topic-choice">#{{type.name}}</div>
+                    </div>
+
+                    <!-- <div class="post-topic-choice-containner">
+                        <div class="post-topic-choice"
+                        v-for="tag in tags1"
+                        :key="tag.name"
+                        @:currentType="tag.name" >#{{tag.name}}</div>
+                    </div>
+                    
+                    <div class="post-topic-choice-containner">
+                        <div class="post-topic-choice"
+                        v-for="tag in tags2"
+                        :key="tag.name"
+                        @:currentType="tag.name" >#{{tag.name}}</div>
+                    </div> -->
                 </div>
+            </div>
+            <div class="post-divide-line"></div>
+                
            
             <div class="post-choice">
-                <div class="post-choice-left">
-                    <span style="padding-left: 30px">Price</span>
-                </div>
-                <textarea class="post-choice-input" placeholder="price..." :maxlength="-1" v-model="price" />
+                <div class="post-choice-left" style="margin-right:10px;">Price</div>
+                <textarea class="post-choice-input" placeholder=" price..." :maxlength="-1" v-model="price" />
             </div>
             <div class="post-divide-line"></div>
 
             <div class="post-choice">
-                <div class="post-choice-left">
-                    <span style="padding-left: 30px">Name</span>
-                </div>
+                <div class="post-choice-left">Name</div>
                 <textarea class="post-choice-input" placeholder="name..." :maxlength="-1" v-model="name" />
             </div>
             <div class="post-divide-line"></div>
@@ -147,7 +147,7 @@ export default {
           fileName = year + month + '/' + fileName
           // 云上存放图片的文件夹需要用时间命名，所以将其以切分成相应格式
           wx.uploadFile({
-            url: 'http://www.flexange.cn:3000/api/item/image',
+            url: 'http://www.flexange.cn:3000/image',
             filePath: tempFilePaths[0],
             name: 'file',
             header: {
@@ -241,6 +241,7 @@ export default {
       this.imgTempPath = ''
       this.price = ''
       this.currentType = ''
+      this.name = ''
     }
   }
 }
@@ -308,7 +309,7 @@ export default {
 
 .post-input {
   width: 345px;
-  height: 185px;
+  height: 200px;
   background: #ffffff;
   border-radius: 9px;
   padding: 15px 17px;
@@ -329,7 +330,7 @@ export default {
   height: 70px;
   background:#F0F0F0;
   border-radius: 5px;
-  margin-top: 5px;
+  margin-top: 20px;
   position: relative;
 }
 
@@ -376,29 +377,30 @@ export default {
 }
 
 .post-choice-left{
-  width: 76%;
+  line-height: 40px;
+  padding-left: 30px;
+  width: 22%;
   height: 40px;
-  display: flex;
   align-items:center;
 }
 
 .post-choice-right{
   height: 40px;
-  display: flex;
-  flex-direction: column;
+  width: 78%;
 }
 
 .post-topic-choice-containner{
-  display: flex;
-  flex-direction: row;
+  height: 20px;
+  float:left;
+  margin: 3px;
+  border-radius: 4px;
 }
 
 .post-topic-choice{
-  padding-left: 2px;
-  padding-right: 2px;
-  margin: 2px;
   border-radius: 4px;
-  height: 16px;
+  height: 20px;
+  padding-left: 5px;
+  padding-right: 5px;
   line-height: 14px;
   background-color:aliceblue;
   color: #888;
@@ -406,11 +408,11 @@ export default {
 }
 
 .post-choice-input{
-  width: 40%;
+  padding-left: 50%;
+  padding-top: 10px;
   height: 40px;
   font-size: 16px;
   color: #333333;
-  line-height: 40px; 
 }
 
 .post-choice-text {
@@ -441,9 +443,10 @@ export default {
 }
 
 .post-divide-line{
-  height: 1px;
-  background-color: #F1F1F1;
-  width: 100%;
+  margin: 2px 5% 2px 5%; 
+  height: 2px;
+  background-color: #000;
+  width: 90%;
 }
 
 .post-ready-submit{
