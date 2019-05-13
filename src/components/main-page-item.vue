@@ -17,9 +17,6 @@
 
 export default {
   props: {
-    page_path: {
-      type: String
-    },
     imgUrl: {
       type: String
     },
@@ -48,7 +45,7 @@ export default {
   methods: {
     goToDetail () {
       wx.navigateTo({
-        url: '/pages/item/main?price=' + this.item_price + '&img_path=' + this.img_path
+        url: '/pages/item/main?price=' + this.price + '&imgUrl=' + this.imgUrl + '&description=' + this.description + '&type=' + this.type
       })
     },
     bindDetails (path) {
