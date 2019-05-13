@@ -49,8 +49,8 @@
                             v-for="tag in tags1"
                             :key="tag.name"
                             @:currentTopic="tag.name" >#{{tag.name}}</div>
-                            
                         </div>
+                        <div> {{currentTopic}}</div>
                         <div class="post-topic-choice-containner">
                             <div class="post-topic-choice"
                             v-for="tag in tags2"
@@ -79,7 +79,7 @@
 
                   
             <div class="post-divide-line"></div>
-            <div v-if="inputValue&&imgTempPath&&currentTopic" class="post-ready-submit" @click="submit">
+            <div v-if="inputValue" class="post-ready-submit" @click="submit">
                 <span>Confirm</span>
             </div>
             <div v-else class="post-submit" >
@@ -190,8 +190,8 @@ export default {
       })
     },
     submit () {
-      // console.log(this.inputValue)
-      if (this.inputValue && this.imgLocal && this.currentTopic) { // 在用户输入值或者上传图片的时候才能上传
+      if (this.inputValue) { // 在用户输入值或者上传图片的时候才能上传
+        console.log(this.inputValue)
         wx.showToast({
           title: '正在发布',
           icon: 'loading',
@@ -200,13 +200,13 @@ export default {
         let form = {
           user: this.user._id,
           discription: this.inputValue,
-          tag: this.currentTopic,
-          imgUrl: this.imgLocal ? [this.imgLocal] : []
+          tag: this.currentTopic
+          // imgUrl: this.imgLocal ? [this.imgLocal] : []
         }
         this.$ajax.post({
           token: this.token,
           data: form,
-          url: `http://www.flexange.cn/post`
+          url: `http://www.flexange.cn:8080/api/item/post`
         }).then((res) => {
           wx.hideToast()
           if (res.statusCode === 200) {
