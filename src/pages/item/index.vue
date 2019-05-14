@@ -4,7 +4,8 @@
           :name="name" 
           :price="price"
           :seller="seller" 
-          :imgUrl="imgUrl">
+          :imgUrl="imgUrl"
+          :type="type">
     </detail>
   </div>
 </template>

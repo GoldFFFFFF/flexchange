@@ -12,12 +12,12 @@
         </div>
         <div class='price-part'>
           <div class='Item-price'>Price: 
-            <span style="padding-left:20px">{{price}}</span>
+            <span style="padding-left:20px">${{price}}</span>
           </div>
         </div>
         <div class='type-part'>
           <div class='Item-type'>Type:
-            <span style="padding-left:20px">{{name}}</span>
+            <span style="padding-left:20px; font-size:16px;">{{type}}</span>
           </div>
           <!-- <div class='type'>{{name}}</div> -->
         </div>
@@ -52,6 +52,9 @@ export default {
       type: String
     },
     imgUrl: {
+      type: String
+    },
+    type: {
       type: String
     }
   },

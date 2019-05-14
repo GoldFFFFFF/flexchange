@@ -182,10 +182,6 @@ export default {
     },
     submit () {
       if (this.inputValue) { // 在用户输入值或者上传图片的时候才能上传
-        console.log(this.inputValue)
-        console.log(this.currentType)
-        console.log(this.price)
-        console.log(this.name)
         wx.showToast({
           title: '正在发布',
           icon: 'loading',
@@ -197,7 +193,8 @@ export default {
           seller: this.user._id,
           description: this.inputValue,
           type: this.currentType,
-          status: false
+          price: this.price,
+          status: true
         }
         this.$ajax.post({
           token: this.token,
@@ -206,6 +203,11 @@ export default {
         }).then((res) => {
           wx.hideToast()
           if (res.statusCode === 200) {
+            console.log(this.inputValue)
+            console.log(this.currentType)
+            console.log(this.price)
+            console.log(this.name)
+            console.log(this.imgTempPath)
             wx.showToast({
               title: '发布成功',
               duration: 1200
@@ -399,6 +401,7 @@ export default {
 .post-topic-choice{
   border-radius: 4px;
   height: 20px;
+  padding-top: 3px;
   padding-left: 5px;
   padding-right: 5px;
   line-height: 14px;
