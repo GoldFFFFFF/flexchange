@@ -20,13 +20,15 @@
     </div>
 
     <div class='show_item' v-for='item in items' :key=item.name>
-          <mainItem :img_path='item.imgUrl' 
-                    :item_name='item.name' 
-                    :item_price='item.price' 
-                    :item_style='item.type' 
-                    :page_path='item.page_path'>
+          <mainItem :imgUrl='item.imgUrl' 
+                    :name='item.name' 
+                    :price='item.price' 
+                    :type='item.type'
+                    :description='item.description'
+                    :status='item.status'
+                    :itemId='item._id'>
           </mainItem>
-      </div>
+    </div>
     <!--div class='swiper-bg'>
     <div class="image-swiper">
           <swiper :indicator-dots="indicatorDots" 
