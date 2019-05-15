@@ -136,19 +136,21 @@ export default {
           })
           // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
           // that.files = that.files.concat(res.tempFilePaths)
-          const tempFilePaths = res.tempFilePaths
+          let tempFilePaths = res.tempFilePaths[0]
           that.imgTempPath = tempFilePaths
+          let fileTypeArray = tempFilePaths.split('.')
+          let fileType = fileTypeArray.pop(fileTypeArray.length - 1)
           let fileName = ''
           let date = new Date()
           let year = String(date.getFullYear())
           let month = String(date.getMonth() + 1)
           if (Number(month) < 10) month = '0' + month
           for (var i = 0; i < 16; i++) fileName += Math.floor(Math.random() * 16).toString(16)
-          fileName = year + month + '/' + fileName
+          fileName = year + month + fileName + '.' + fileType
           // 云上存放图片的文件夹需要用时间命名，所以将其以切分成相应格式
           wx.uploadFile({
             url: 'http://www.flexange.cn:3000/image',
-            filePath: tempFilePaths[0],
+            filePath: tempFilePaths,
             name: 'file',
             header: {
               'Content-Type': 'multipart/form-data'
@@ -156,14 +158,16 @@ export default {
             formData: {
               name: tempFilePaths,
               key: fileName,
-              success_action_status: '200'
-              // 'Content-Type': fileType // 在传form的时候，form的content-type对应文件格式，而http请求报头的content-type需要指定form
+              success_action_status: '200',
+              'Content-Type': fileType // 在传form的时候，form的content-type对应文件格式，而http请求报头的content-type需要指定form
             },
             success: function (res) {
+              console.log(res)
+              console.log(res.data)
               wx.hideToast()
-              that.imgLocal = fileName // 将页面数据与文件名绑定，从而好判断用户是否成功 上传了图片
+              that.imgLocal = res.data // 将页面数据与文件名绑定，从而好判断用户是否成功 上传了图片
               wx.showToast({
-                title: '上传图片成功',
+                title: 'UPLOAD SUCCESS',
                 duration: 1000
               })
             },
@@ -171,7 +175,7 @@ export default {
               wx.hideToast()
               that.imgLocal = ''
               wx.showToast({
-                title: '上传失败，请重试',
+                title: 'UPLOAD FAIL',
                 image: '/static/icons/fail.png',
                 duration: 1500
               })
@@ -188,7 +192,7 @@ export default {
           duration: 8000
         })
         let form = {
-          imgUrl: this.imgTempPath,
+          imgUrl: 'http://www.flexange.cn:3030/images/' + this.imgLocal,
           name: this.name,
           seller: this.user._id,
           description: this.inputValue,
@@ -207,7 +211,7 @@ export default {
             console.log(this.currentType)
             console.log(this.price)
             console.log(this.name)
-            console.log(this.imgTempPath)
+            console.log(this.imgLocal)
             wx.showToast({
               title: '发布成功',
               duration: 1200
@@ -247,6 +251,8 @@ export default {
     },
     removeImg () {
       this.imgTempPath = ''
+      this.imgLocal = ''
+
     }
   }
 }
