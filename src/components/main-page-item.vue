@@ -7,7 +7,7 @@
       <span style="font-size:20px">{{name}}</span>
     </div>
     <div class='price'>
-      <span style='font-size:30px'>{{price}}</span>
+      <span style='font-size:30px'>${{price}}</span>
     </div>
   </div>
 </div>
@@ -45,7 +45,7 @@ export default {
   methods: {
     goToDetail () {
       wx.navigateTo({
-        url: '/pages/item/main?price=' + this.price + '&imgUrl=' + this.imgUrl + '&description=' + this.description + '&type=' + this.type
+        url: '/pages/item/main?price=' + this.price + '&imgUrl=' + this.imgUrl + '&description=' + this.description + '&type=' + this.type + '&itemId=' + this.itemId
       })
     },
     bindDetails (path) {

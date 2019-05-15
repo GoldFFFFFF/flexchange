@@ -5,7 +5,8 @@
           :price="price"
           :seller="seller" 
           :imgUrl="imgUrl"
-          :type="type">
+          :type="type"
+          :itemId='itemId'>
     </detail>
   </div>
 </template>

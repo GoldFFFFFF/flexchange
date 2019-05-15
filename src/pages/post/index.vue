@@ -244,6 +244,9 @@ export default {
       this.price = ''
       this.currentType = ''
       this.name = ''
+    },
+    removeImg () {
+      this.imgTempPath = ''
     }
   }
 }
@@ -444,7 +447,6 @@ export default {
   position:absolute;
   right:4.3vw;
 }
-
 .post-divide-line{
   margin: 2px 5% 2px 5%; 
   height: 2px;

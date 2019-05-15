@@ -5,11 +5,11 @@
       <div class="search">
         <div class="search-bar">
             <icon class="searchIcon" size='20' type='search'></icon>
-            <input class="" placeholder="ITEM NAME" >
+            <input class="" placeholder="ITEM NAME..." v-model="searchInput">
         </div>
       </div>
 
-      <div class='button'>
+      <div class='button' @click="bindSearch">
         <button type="default" size="mini" bindtap="default" hover-class="button-hover"> Search</button>
       </div>
 
@@ -62,6 +62,7 @@ import mainItem from '@/components/main-page-item'
 export default {
   data () {
     return {
+      searchInput: '',
       items: []
     }
   },
@@ -69,6 +70,11 @@ export default {
     mainItem
   },
   methods: {
+    bindSearch () {
+      wx.navigateTo({
+        url: '../item/main?description=' + this.searchInput + '&price' + this.items.price
+      })
+    },
     bindDetails () {
       wx.navigateTo({
         url: '../item/main'
