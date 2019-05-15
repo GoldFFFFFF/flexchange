@@ -1,25 +1,27 @@
 <template>
 <!-- 购物车界面的组件 包括商品照片，名称，价格和卖家姓名 -->
-<div class='page_item'>
-  <div class='seller_pattern' @click="goToDetail()">
-    <img :src="imgUrl" class="seller_item" />
-    <div class="cart_item_info">
-      <div class="item_info">
-        <span style="width:150px;padding-top:10px;padding-bottom:10px;color:cornflowerblue;font-size:20px;">{{name}}</span>
-      </div>
-      <div class="price_name">
-        <div class='item_price'>
-          <span style="color:aqua;font-size:20px;">${{price}}</span>
+
+  <div class='page_item'>
+    <div class='seller_pattern' @click="goToDetail()">
+      <img :src="imgUrl" class="seller_item" />
+      <div class="cart_item_info">
+        <div class="item_info">
+          <span >{{name}}</span>
         </div>
-        <div class='seller_name'>
-          <!-- <span style="font-size=15px;">Seller: {{seller}}</span> -->
-          <span style="font-size=15px;">Seller: Lingyun</span>
+        <div class="price_name">
+          <div class='item_price'>
+            <span>${{price}}</span>
+          </div>
+          <div class='seller_name'>
+            <!-- <span style="font-size=15px;">Seller: {{seller}}</span> -->
+            <span style="font-size=15px;">Seller:Lingyun</span>
+          </div>
         </div>
       </div>
-    </div>
+    </div> 
   </div>
-  
-</div>
+   
+
 </template>
 
 <script>
@@ -80,38 +82,36 @@ export default {
 </script>
 
 <style>
+.wholePage{
+  display:flex;
+  flex-direction: column;
+}
 .price_name{
   display:flex;
   flex-direction: row;
 }
-.post-divide-line{
-  background-color:#F1F1F1;
-  width: 100%;
-}
+
 .page_item{
   display:flex;
+  border-radius: 5px;
 }
 .cart_item_info{
-  padding-left:10px;
   display:flex;
   flex-direction:column;
 }
 .item_info{
-  display:flex;
-  flex-direction:row;
+  width:100%;
+  padding-top:10px;
+  padding-bottom:10px;
+  font-size:20px;
 }
 .item_price{
-  width:30px;
-  padding-bottom:20px;
+  width: 20vw;
+  font-size:20px;
 }
 .seller_name{
-  width:80%;
   height:25px;
-  margin-left:40px;
-  margin-top:10px;
-  /* position:absolute;
-  right:10%;
-  margin-top:20%; */
+  margin-top:50px;
   border-radius: 4px;
   border-style:solid;
 }
@@ -127,10 +127,9 @@ export default {
   flex-direction:row;
 }
 .seller_item{
-  border-radius: 4px;
-  margin-left:25px;
-  padding:5px;
+  margin:5vw;
   width:100px;
   height:100px;
+  border-radius: 10px;
 }
 </style>
