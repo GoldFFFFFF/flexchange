@@ -1,16 +1,20 @@
 <template>
 <!-- 购物车界面的组件 包括商品照片，名称，价格和卖家姓名 -->
 <div class='page_item'>
-  <div class='seller_pattern' @click="bindItemPage(cart_path)">
+  <div class='seller_pattern' @click="goToDetail()">
     <img :src="imgUrl" class="seller_item" />
     <div class="cart_item_info">
       <div class="item_info">
         <span style="width:150px;padding-top:10px;padding-bottom:10px;color:cornflowerblue;font-size:20px;">{{name}}</span>
       </div>
       <div class="price_name">
-        <div class='item_price'> <span style="color:aqua;font-size:20px;">{{price}}</span>
+        <div class='item_price'>
+          <span style="color:aqua;font-size:20px;">${{price}}</span>
         </div>
-        <div class='seller_name'><span style="font-size=15px;">Seller: {{seller}}</span></div>
+        <div class='seller_name'>
+          <!-- <span style="font-size=15px;">Seller: {{seller}}</span> -->
+          <span style="font-size=15px;">Seller: Lingyun</span>
+        </div>
       </div>
     </div>
   </div>
@@ -30,6 +34,9 @@ export default {
     cart_path: {
       type: String
     },
+    type: {
+      type: String
+    },
     imgUrl: {
       type: String
     },
@@ -37,6 +44,9 @@ export default {
       type: String
     },
     price: {
+      type: String
+    },
+    description: {
       type: String
     },
     name: {
@@ -56,9 +66,14 @@ export default {
         this.isShow = true
       }
     },
-    bindItemPage (path) {
-      const url = path
-      wx.navigateTo({url})
+    // bindItemPage (path) {
+    //   const url = path
+    //   wx.navigateTo({url})
+    // },
+    goToDetail () {
+      wx.navigateTo({
+        url: '/pages/item/main?price=' + this.price + '&imgUrl=' + this.imgUrl + '&description=' + this.description + '&type=' + this.type
+      })
     }
   }
 }

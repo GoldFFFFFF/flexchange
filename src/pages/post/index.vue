@@ -252,6 +252,7 @@ export default {
     removeImg () {
       this.imgTempPath = ''
       this.imgLocal = ''
+
     }
   }
 }
@@ -452,7 +453,6 @@ export default {
   position:absolute;
   right:4.3vw;
 }
-
 .post-divide-line{
   margin: 2px 5% 2px 5%; 
   height: 2px;
