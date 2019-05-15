@@ -1,17 +1,5 @@
 <template>
     <div class="post-page">
-        <!-- <div class="post-top-space"></div>
-        <div class="post-logout">
-            <img class="post-site-icon" src="/static/icons/xjtluwall.png" />
-            <div class="post-site-hellow" >
-                <span>登录<br/>解锁{{isReply?'回复':'发布'}}</span>
-            </div>
-            <div
-              class="post-login-wechat">
-                <img class="post-login-icon" src="@/static/icons/wechat.png" />
-                <span>微信登录</span>
-            </div>
-        </div> -->
 
         <div >
 
@@ -30,7 +18,7 @@
             <div class="post-choice" style="height:80px">
                 <div class="post-choice-left" style="height:80px;line-height:80px;">Tag</div>
 
-                <div class="post-choice-right" style="height:80px">
+                <div class="post-choice-right" style="height:80px；margin-right:15px;">
                     <div
                       class="post-topic-choice-containner"
                       v-for="type in tags"
@@ -38,28 +26,14 @@
                       @tap="currentType=type.name">
                         <div :style="{color:currentType===type.name?'#888':'#000'}" class="post-topic-choice">#{{type.name}}</div>
                     </div>
-
-                    <!-- <div class="post-topic-choice-containner">
-                        <div class="post-topic-choice"
-                        v-for="tag in tags1"
-                        :key="tag.name"
-                        @:currentType="tag.name" >#{{tag.name}}</div>
-                    </div>
-                    
-                    <div class="post-topic-choice-containner">
-                        <div class="post-topic-choice"
-                        v-for="tag in tags2"
-                        :key="tag.name"
-                        @:currentType="tag.name" >#{{tag.name}}</div>
-                    </div> -->
                 </div>
             </div>
             <div class="post-divide-line"></div>
                 
            
             <div class="post-choice">
-                <div class="post-choice-left" style="margin-right:10px;">Price</div>
-                <textarea class="post-choice-input" placeholder=" price..." :maxlength="-1" v-model="price" />
+                <div class="post-choice-left" style="margin-right:15px;">Price</div>
+                <textarea class="post-choice-input" placeholder="price..." :maxlength="-1" v-model="price" />
             </div>
             <div class="post-divide-line"></div>
 
@@ -69,7 +43,7 @@
             </div>
             <div class="post-divide-line"></div>
 
-            <div v-if="inputValue" class="post-ready-submit" @click="submit">
+            <div v-if="inputValue && imgTempPath && currentType && price && name" class="post-ready-submit" @click="submit">
                 <span>Confirm</span>
             </div>
             <div v-else class="post-submit" >
@@ -135,7 +109,6 @@ export default {
             duration: 10000
           })
           // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-          // that.files = that.files.concat(res.tempFilePaths)
           let tempFilePaths = res.tempFilePaths[0]
           that.imgTempPath = tempFilePaths
           let fileTypeArray = tempFilePaths.split('.')
@@ -187,7 +160,7 @@ export default {
     submit () {
       if (this.inputValue) { // 在用户输入值或者上传图片的时候才能上传
         wx.showToast({
-          title: '正在发布',
+          title: 'Loading',
           icon: 'loading',
           duration: 8000
         })
@@ -213,7 +186,7 @@ export default {
             console.log(this.name)
             console.log(this.imgLocal)
             wx.showToast({
-              title: '发布成功',
+              title: 'Post Success',
               duration: 1200
             })
             this.init()
@@ -222,7 +195,7 @@ export default {
             }, 400)
           } else {
             wx.showToast({
-              title: '发布失败，请重试',
+              title: 'Post Fail,Please try again',
               image: '/static/icons/fail.png'
             })
           }
@@ -248,11 +221,11 @@ export default {
       this.price = ''
       this.currentType = ''
       this.name = ''
+      this.imgLocal = ''
     },
     removeImg () {
       this.imgTempPath = ''
       this.imgLocal = ''
-
     }
   }
 }

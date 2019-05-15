@@ -23,15 +23,15 @@
         </div>
       </div>
     </div>
-    <div class="post-divide-line" style="height:1px;width:90%;margin-left:20px;top:162px;">
+    <div class="post-divide-line" >
     </div>
     <div class="info-area">
       <div class="info-title" >
-        <span style="padding-left:5%;">Description:</span>
+        <span>Description:</span>
       </div>
-      <textarea  id="info-text-area"  :value="description">
-      </textarea>
+      <div  id="info-text-area" >{{description}}</div>
     </div>
+    <button id="add-button" @click="addTocar">add to Shoping Car</button>
   </div>
 </template>
 
@@ -64,15 +64,24 @@ export default {
     }
   },
   methods: {
-  },
-
-  created () {
-    // let app = getApp()
+    addTocar () {
+      console.log('hklh')
+      wx.showToast({
+        title: 'Added success',
+        duration: 1200
+      })
+    }
   }
 }
 </script>
 
 <style>
+.post-divide-line{
+  margin: 2px 5% 2px 5%; 
+  height: 2px;
+  background-color: #000;
+  width: 90%;
+}
 .item-img{
   padding-left:10px;
 }
@@ -90,6 +99,7 @@ export default {
 .item-info{
   display:flex;
   flex-direction: row;
+  margin-bottom: 3%;
 }
 .sellor-photo{
   height:64px;
@@ -100,29 +110,21 @@ export default {
   flex-direction: row;
 }
 .info-area{
-  background-color: #FFF;
-  height:50%;
-}
-.post-divide-line{
-  background-color: #F1F1F1;
-  width: 100%;
-}
-#info-text-area{
-  width: 100%;
-  min-height: 33vw;
-  overflow: visible;
-  box-sizing: border-box;
-  padding: 12px 12px 10px 15px;
-  font-size: 17px;
-  line-height: 23px;
-  color: #333;
-  border:aqua;
-  resize: none;
-  outline: none;
+  margin: 3%;
 }
 .item{
   width:150px;
   height:150px;
   border-radius: 50%;
 }
+#info-text-area{
+  margin: 3%;
+}
+#add-button{
+  width: 90%;
+  margin: 5%;
+  position: absolute;
+  bottom: 0;
+}
+
 </style>
