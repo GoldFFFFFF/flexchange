@@ -1,9 +1,8 @@
 <template>
 <div>
   <div class='title'>
-
     <div class='title-name'>
-      <span>Personal Shopping Cart</span>
+      <span>Waiting to buy</span>
     </div>
 
     <div class='button' >
@@ -11,15 +10,7 @@
     </div>
 
   </div>
-  <div class="post-divide-line">
-  </div>
-  <div class='' style='padding-top;10rpx;padding-bottom:5rpx;' v-for='item in items' :key=item.name>
-    <!-- <shopCar
-    :imgUrl='item.img' 
-    :name='item.name' 
-    :price='item.price' 
-    :seller='item.seller'
-    :cart_path='item.path'></shopCar> -->
+  <div class='' v-for='item in items' :key=item.name>
     <shopCar :imgUrl='item.imgUrl' 
              :name='item.name'
              :price='item.price'
@@ -28,8 +19,7 @@
              :status='item.status'
              :itemId='item._id'>
     </shopCar>
-    <div class="post-divide-line">
-  </div>
+    <div class="post-divide-line"></div>
   </div>
   
 </div>
@@ -114,20 +104,19 @@ export default {
   align-items: center;
 }
 .post-divide-line{
-  height: 3px;
   margin: 2px 5% 2px 5%; 
-  background-color:#F1F1F1;
+  height: 2px;
+  background-color: #000;
   width: 90%;
 }
 .title-name{
   width:70%;
-  padding-top:0;
-  padding-left:10%;
+  padding-left:5%;
 }
 .button{
   position:relative;
 }
 .button-hover{
-  background-color:red;
+  background-color:#1f1f1f;
 }
 </style>
