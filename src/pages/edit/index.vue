@@ -1,5 +1,3 @@
-
-
 <template>
 <div>
   <div class='title'>
@@ -13,7 +11,7 @@
     </div>
 
   </div>
-  <div class="post-divide-line" style="height: 5px;width:100%;">
+  <div class="post-divide-line">
   </div>
   <div class='' style='padding-top;10rpx;padding-bottom:5rpx;' v-for='item in cart_items' :key=item.name>
     <shopCar :isShow='false' :ishow='true'
@@ -23,7 +21,7 @@
     :price='item.price' 
     :seller='item.seller'
     :cart_path='item.path'></shopCar>
-    <div class="post-divide-line" style="height: 5px;width:100%;">
+    <div class="post-divide-line">
   </div>
   </div>
   
