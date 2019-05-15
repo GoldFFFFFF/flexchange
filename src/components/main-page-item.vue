@@ -4,10 +4,10 @@
   <div class='inner' @click="goToDetail()" >
     <image :src="imgUrl" class='image' ></image>
     <div class='name'>
-      <span style="font-size:20px">{{name}}</span>
+      <span >{{name}}</span>
     </div>
     <div class='price'>
-      <span style='font-size:30px'>${{price}}</span>
+      <span >${{price}}</span>
     </div>
   </div>
 </div>
@@ -63,13 +63,22 @@ export default {
 <style>
 .page{
   display:flex;
-  float:left;
 }
 .inner{
-  padding-left:25px;
+  padding: 10px;
+  border:2px solid #1f1f10;
+  border-radius: 5px;
 }
 .image{
-  width:150px;
-  height:150px;
+  width:130px;
+  height:130px;
+  border-radius: 5px;
+}
+.name{
+  font-size: 15px;
+}
+.price{
+  font-size: 17px;
+  text-align: right;
 }
 </style>
