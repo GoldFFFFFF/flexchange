@@ -125,13 +125,15 @@ export default {
       })
     },
     bindFilter () {
-      const url = '../filter/main'
-      wx.navigateTo({ url })
+      wx.navigateTo({
+        url: '../filter/main'
+      })
     },
-    getPage () {
+    getPage (url) {
       this.$ajax.get({
-        url: 'http://203.195.164.28:3000/api/item/'
+        url
       }).then((res) => {
+        console.log(res.data.resultMessage)
         this.items = res.data.resultMessage
         setTimeout(() => {
           this.freshPos = 0
@@ -146,11 +148,19 @@ export default {
       })
     }
   },
-  created () {
-    this.getPage()
-  },
+  // created () {
+  //   this.getPage()
+  // },
   onPullDownRefresh: function () {
-    this.getPage()
+    this.getPage('http://203.195.164.28:3000/api/item/')
+  },
+  onShow: function (options) {
+    console.log(getApp().globalData.currentType)
+    if (getApp().globalData.currentType) {
+      this.getPage('http://203.195.164.28:3000/api/item/type/type?type=' + getApp().globalData.currentType)
+    } else {
+      this.getPage('http://203.195.164.28:3000/api/item/')
+    }
   }
 }
 </script>
