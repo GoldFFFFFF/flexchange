@@ -88,21 +88,6 @@ export default {
                 code: res.code,
                 username: that.username,
                 imgUrl: that.imgUrl
-              },
-              success: function (res) {
-                console.log('testwww')
-                if (res.statusCode === 200) {
-                  console.log('test')
-                  console.log(res.data)
-                  // that.globalData.openid = res.data
-                  wx.setStorageSync('openid', res.data)
-                } else {
-                  console.log('nop')
-                  console.log(res.errMsg)
-                }
-              },
-              fail: function (res) {
-                console.log('connect fail')
               }
             })
             console.log(res)
@@ -111,6 +96,22 @@ export default {
           }
         }
       })
+      console.log('!test')
+      console.log(wx.getStorageSync('user'))
+      console.log('!test')
+      let form = {
+        username: wx.getStorageSync('user')
+      }
+      this.$ajax.post({
+        token: this.token,
+        data: form,
+        url: `http://www.flexange.cn:3000/getid`
+      }).then((res) => {
+        console.log(res.data)
+        // console.log(res.data[0]._id)
+        wx.setStorageSync('openid', res.data)
+      }
+      )
       this.logged = true
     },
     bindSearch () {
