@@ -6,7 +6,8 @@
           :seller="seller" 
           :imgUrl="imgUrl"
           :type="type"
-          :itemId='itemId'>
+          :itemId='itemId'
+          :father='father'>
     </detail>
   </div>
 </template>
@@ -42,6 +43,7 @@ export default {
     this.description = options.description
     this.status = options.status
     this.seller = options.seller
+    this.father = options.father
   }
 
 }
