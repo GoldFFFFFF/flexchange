@@ -16,11 +16,11 @@
           <button type="default" size="mini" bindtap="default" hover-class="button-hover"> Search</button>
         </div>
 
-        <div class='filter' style="" @click="bindNewItem" >
+        <div class='filter' style="" @click="bindFilter" >
           <img src="/static/icons/more.png" style="height:72rpx;width:72rpx;"/>
         </div>
       </div>     
-
+      
       <div class='show_item' >
           <div class='item' v-for='item in items' :key=item.name>
               <mainItem :imgUrl='item.imgUrl' 
@@ -124,9 +124,9 @@ export default {
         url: '../item/main'
       })
     },
-    bindNewItem () {
-      const url = '../shoppingCar/main'
-      wx.switchTab({ url })
+    bindFilter () {
+      const url = '../filter/main'
+      wx.navigateTo({ url })
     },
     getPage () {
       this.$ajax.get({

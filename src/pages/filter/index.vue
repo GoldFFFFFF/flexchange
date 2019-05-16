@@ -48,9 +48,10 @@ export default {
   methods: {
     confirm () {
       this.$ajax.get({
-        url: 'http://203.195.164.28:3000/type/?type=' + this.currentType
+        url: 'http://203.195.164.28:3000/api/item/type/type?type=' + this.currentType
       }).then((res) => {
-        this.items = res.data.resultMessage
+        this.items = res.data
+        console.log(res.data)
         setTimeout(() => {
           this.freshPos = 0
         }, 300)
@@ -62,7 +63,9 @@ export default {
         }, 300)
         wx.hideToast()
       })
-      wx.navigateBack({})
+      wx.switchTab({
+        url: '../homepage/main?itemss=' + this.items
+      })
     }
   },
   created () {
