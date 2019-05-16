@@ -83,6 +83,30 @@ export default {
         title: 'Added success',
         duration: 1200
       })
+      // let form = {
+      //   item_id: this.item_id
+      // }
+      // this.$ajax.post({
+      //   token: this.token,
+      //   data: form,
+      //   url: `http://www.flexange.cn:3000/api/user/`
+      // }).then((res) => {
+      //   wx.hideToast()
+      //   if (res.statusCode === 200) {
+      //     wx.showToast({
+      //       title: 'Post Success',
+      //       duration: 1200
+      //     })
+      //     setTimeout(() => {
+      //       this.$emit('added')
+      //     }, 400)
+      //   } else {
+      //     wx.showToast({
+      //       title: 'Add Fail,Please try again',
+      //       image: '/static/icons/fail.png'
+      //     })
+      //   }
+      // })
     },
     deleteFromCar () {
       wx.showToast({
