@@ -31,7 +31,17 @@
       </div>
       <div  id="info-text-area" >{{description}}</div>
     </div>
-    <button id="add-button" @click="addTocar">add to Shoping Car</button>
+    <button v-if="father=='homePage'" id="add-button" @click="addTocar">
+      add to Shoping Car
+    </button>
+    <div v-else id='contect-and-delete'>
+      <button id="add-button2" @click="contactSeller">
+        Contact Seller
+      </button> 
+      <button id="add-button2" @click="deleteFromCar">
+        Delete
+      </button>     
+    </div>
   </div>
 </template>
 
@@ -56,7 +66,11 @@ export default {
     },
     type: {
       type: String
+    },
+    father: {
+      type: String
     }
+
   },
   data () {
     return {
@@ -65,12 +79,26 @@ export default {
   },
   methods: {
     addTocar () {
-      console.log('hklh')
       wx.showToast({
         title: 'Added success',
         duration: 1200
       })
+    },
+    deleteFromCar () {
+      wx.showToast({
+        title: 'Delete success',
+        duration: 1200
+      })
+    },
+    contactSeller () {
+      wx.showToast({
+        title: 'Contact success',
+        duration: 1200
+      })
     }
+  },
+  created () {
+    console.log(this.father)
   }
 }
 </script>
@@ -126,5 +154,16 @@ export default {
   position: absolute;
   bottom: 0;
 }
-
+#contect-and-delete{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 0;
+}
+#add-button2{
+  width: 40%; 
+  margin: 5%; 
+  font-size:15px; 
+}
 </style>

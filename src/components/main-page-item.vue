@@ -45,7 +45,7 @@ export default {
   methods: {
     goToDetail () {
       wx.navigateTo({
-        url: '/pages/item/main?price=' + this.price + '&imgUrl=' + this.imgUrl + '&description=' + this.description + '&type=' + this.type + '&itemId=' + this.itemId
+        url: '/pages/item/main?price=' + this.price + '&imgUrl=' + this.imgUrl + '&description=' + this.description + '&type=' + this.type + '&itemId=' + this.itemId + '&father=homePage'
       })
     },
     bindDetails (path) {

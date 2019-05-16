@@ -74,7 +74,7 @@ export default {
     // },
     goToDetail () {
       wx.navigateTo({
-        url: '/pages/item/main?price=' + this.price + '&imgUrl=' + this.imgUrl + '&description=' + this.description + '&type=' + this.type
+        url: '/pages/item/main?price=' + this.price + '&imgUrl=' + this.imgUrl + '&description=' + this.description + '&type=' + this.type + '&father=shoppingCar'
       })
     }
   }
