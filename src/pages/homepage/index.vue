@@ -3,7 +3,7 @@
 
     <div v-if="!logged">
       <div id="text">Please log in!</div>
-      <button id="login" @click='logIn'> LogIn</button>
+      <button id="login" open-type="getUserInfo" @click='logIn'> LogIn</button>
     </div>
     
     <div v-else class='page_row' >
@@ -44,36 +44,74 @@
 import mainItem from '@/components/main-page-item'
 
 export default {
-  data () {
-    return {
-      searchInput: '',
-      items: [],
-      logged: false
-    }
+  data: {
+    searchInput: '',
+    items: [],
+    logged: false,
+    username: '',
+    imgUrl: ''
   },
   components: {
     mainItem
   },
   methods: {
     logIn () {
-      this.logged = true
+      var that = this
+      wx.getSetting({
+        success (res) {
+          if (!res.authSetting['scope.userInfo']) {
+            wx.authorize({
+              scope: 'scope.userInfo',
+              success () {
+                wx.startRecord()
+              }
+            })
+          }
+        }
+      })
+      wx.getUserInfo({
+        success (res) {
+          const userInfo = res.userInfo
+          console.log(userInfo)
+          that.username = userInfo.nickName
+          that.imgUrl = userInfo.avatarUrl
+          wx.setStorageSync('user', that.username)
+          wx.setStorageSync('avatar', that.imgUrl)
+        }
+      })
       wx.login({
         success: function (res) {
           if (res.code) {
-          // 发起网络请求
             wx.request({
               url: 'http://203.195.164.28:3000/onlogin',
               data: {
-                code: res.code
+                code: res.code,
+                username: that.username,
+                imgUrl: that.imgUrl
+              },
+              success: function (res) {
+                console.log('testwww')
+                if (res.statusCode === 200) {
+                  console.log('test')
+                  console.log(res.data)
+                  // that.globalData.openid = res.data
+                  wx.setStorageSync('openid', res.data)
+                } else {
+                  console.log('nop')
+                  console.log(res.errMsg)
+                }
+              },
+              fail: function (res) {
+                console.log('connect fail')
               }
             })
-            console.log(res.code)
-            console.log(res.data)
+            console.log(res)
           } else {
             console.log('Login Failed！' + res.errMsg)
           }
         }
       })
+      this.logged = true
     },
     bindSearch () {
       wx.navigateTo({

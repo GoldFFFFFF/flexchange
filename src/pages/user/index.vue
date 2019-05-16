@@ -1,13 +1,14 @@
 <template>
   <div>
       <div class="userinformation">
-        <div class="userName"> {{userName}} </div>
+        <div class="userName"> {{user}} </div>
         <div class="userImage">
-            <img src="/static/tabs/user.png">
+            <img :src="avatar">
         </div>
       </div>
 
-      
+      <div class="post-divide-line"></div>
+
       <div class="links" @click="toPurchase"> My Purchase </div>
       <div class="links" @click="toForSale"> My For Sale </div>
       <div class="links" @click="toSold"> My Sold </div>
@@ -21,7 +22,8 @@
 
 export default {
   data: {
-    userName: 'Shey'
+    user: '',
+    avatar: ''
   },
   methods: {
     toPurchase () {
@@ -44,6 +46,12 @@ export default {
         url: '/pages/user/setting/main'
       })
     }
+  },
+  computed: {
+    setUser () {
+      this.user = wx.getStorageSync('user')
+      this.avatar = wx.getStorageSync('avatar')
+    }
   }
 }
 </script>
@@ -63,19 +71,20 @@ export default {
 }
 
 .userName{
-  margin-top:5%;
-  margin-left:20%;
-  width:65%;
-  font-size:24;
+  padding-top:15%;
+  margin-left:10%;
+  margin-right:5%;
+  width:50%;
+  font-size:48;
 }
 
 .userImage{
-  width:35%;
-  
+  border-radius: 5px;
 }
 .userImage img {
-  width:60px;
-  height: 60px;
+  width:80px;
+  height: 80px;
+  border-radius: 10px;
 }
 
 .links {
@@ -93,4 +102,10 @@ export default {
   height: 45px;
 }
 
+.post-divide-line{
+  margin: 30px 5% 30px 5%; 
+  height: 2px;
+  background-color: #000;
+  width: 90%;
+}
 </style>

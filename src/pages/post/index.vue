@@ -167,7 +167,7 @@ export default {
         let form = {
           imgUrl: 'http://www.flexange.cn:3030/images/' + this.imgLocal,
           name: this.name,
-          seller: this.user._id,
+          seller: wx.getStorageSync('user'),
           description: this.inputValue,
           type: this.currentType,
           price: this.price,
