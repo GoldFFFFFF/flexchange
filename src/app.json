@@ -7,6 +7,7 @@
     "pages/user/setting/main",
     "pages/user/sold/main",
     "pages/post/main",
+    "pages/filter/main",
     "pages/shoppingCar/main",
     "pages/search/main",
     "pages/edit/main",
