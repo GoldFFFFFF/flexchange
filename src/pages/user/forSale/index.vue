@@ -2,15 +2,23 @@
 <div>
   <div class='title'>
 
-    <div class='title-name'>
+    <div class='title-name' >
       <span>My For Sale</span>
     </div>
   </div>
-  <div class="post-divide-line" style="height: 3px;width:100%;">
+  <div class="post-divide-line">
   </div>
-  <div class='' style='background:#F1F1F1;padding-top;10rpx;padding-bottom:5rpx;' v-for='item in cart_items' :key=item.name>
-    <compo bind:component_method="main_page_mehod" :cart_img='item.img' :cart_name='item.name' :cart_price='item.price' :cart_sellor='item.sellor' :cart_style='item.position' :cart_path='item.path'></compo>
-    </div>
+  <div class='' v-for='item in items' :key=item.name>
+    <compo  :imgUrl='item.imgUrl' 
+            :name='item.name'
+            :price='item.price'
+            :type='item.type'
+            :description='item.description'
+            :status='item.status'
+            :itemId='item._id'>
+    </compo>
+    <div class="post-divide-line"></div>
+  </div>
 </div>
 
 </template>
@@ -20,6 +28,7 @@ import compo from '@/components/shopping-page-item'
 export default {
   data () {
     return {
+      items: [],
       cart_items: [
         {img: '/static/images/buou.jpg', name: 'Buou photo', price: '$5000', sellor: 'Shey', position: '', path: '../../itemPages/buou/main'},
         {img: '/static/images/jumao.jpeg', name: 'Jucat photo', price: '$1000', sellor: 'Shey', position: '', path: '../../itemPages/jumao/main'},
@@ -36,8 +45,23 @@ export default {
       wx.navigateTo({url})
     }
   },
-  created () {
-    // let app = getApp()
+  onShow () {
+    this.$ajax.get({
+      url: 'http://203.195.164.28:3000/api/item/'
+    }).then((res) => {
+      this.items = res.data.resultMessage
+      console.log(this.items)
+      setTimeout(() => {
+        this.freshPos = 0
+      }, 300)
+      wx.hideToast()
+    }).catch((err) => {
+      console.log(err)
+      setTimeout(() => {
+        this.freshPos = 0
+      }, 300)
+      wx.hideToast()
+    })
   }
 }
 </script>
@@ -78,21 +102,17 @@ export default {
   flex-direction: column;
   align-items: center;
 }
-/*.this_item{
-  position:absolute;
-  padding-top:5px;
-  padding-left:5px;
-  width:100px;
-  height:100px;
-}*/
 .post-divide-line{
-  background-color:#F1F1F1;
-  width: 100%;
+  margin: 2px 5% 2px 5%; 
+  height: 2px;
+  background-color: #000;
+  width: 90%;
 }
 .title-name{
   width:70%;
   padding-top:0;
   padding-left:10%;
+  margin-bottom: 10px;
 }
 .button{
   position:relative;

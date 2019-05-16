@@ -51,11 +51,13 @@ export default {
       wx.navigateTo({url})
     }
   },
-  created () {
+  onShow () {
     this.$ajax.get({
-      url: 'http://203.195.164.28:3000/api/item/'
+      token: this.token,
+      // data: wx.getStorageSync('openid'),
+      url: 'http://203.195.164.28:3000/api/item/cart/' + wx.getStorageSync('openid')
     }).then((res) => {
-      this.items = res.data.resultMessage
+      this.items = res.data.recart
       console.log(this.items)
       setTimeout(() => {
         this.freshPos = 0
