@@ -47,24 +47,9 @@ export default {
   },
   methods: {
     confirm () {
-      this.$ajax.get({
-        url: 'http://203.195.164.28:3000/api/item/type/type?type=' + this.currentType
-      }).then((res) => {
-        this.items = res.data
-        console.log(res.data)
-        setTimeout(() => {
-          this.freshPos = 0
-        }, 300)
-        wx.hideToast()
-      }).catch((err) => {
-        console.log(err)
-        setTimeout(() => {
-          this.freshPos = 0
-        }, 300)
-        wx.hideToast()
-      })
+      getApp().globalData.currentType = this.currentType
       wx.switchTab({
-        url: '../homepage/main?itemss=' + this.items
+        url: '../homepage/main'
       })
     }
   },
