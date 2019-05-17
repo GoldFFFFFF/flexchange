@@ -102,11 +102,13 @@ export default {
       let form = {
         username: wx.getStorageSync('user')
       }
+      console.log(form)
       this.$ajax.post({
         token: this.token,
         data: form,
         url: `http://www.flexange.cn:3000/getid`
       }).then((res) => {
+        console.log('11111')
         console.log(res.data)
         // console.log(res.data[0]._id)
         wx.setStorageSync('openid', res.data)
@@ -148,9 +150,6 @@ export default {
       })
     }
   },
-  // created () {
-  //   this.getPage()
-  // },
   onPullDownRefresh: function () {
     this.getPage('http://203.195.164.28:3000/api/item/')
   },
@@ -158,6 +157,9 @@ export default {
     console.log(getApp().globalData.currentType)
     if (getApp().globalData.currentType) {
       this.getPage('http://203.195.164.28:3000/api/item/type/type?type=' + getApp().globalData.currentType)
+      console.log(getApp().globalData.currentType)
+      getApp().globalData.currentType = ''
+      console.log(getApp().globalData.currentType)
     } else {
       this.getPage('http://203.195.164.28:3000/api/item/')
     }

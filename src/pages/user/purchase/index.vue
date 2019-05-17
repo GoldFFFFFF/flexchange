@@ -3,7 +3,7 @@
   <div class='title'>
 
     <div class='title-name' >
-      <span>My For Sale</span>
+      <span>My Purchase</span>
     </div>
   </div>
   <div class="post-divide-line">
@@ -15,7 +15,8 @@
             :type='item.type'
             :description='item.description'
             :status='item.status'
-            :itemId='item._id'>
+            :itemId='item._id'
+            :seller='item.user'>
     </compo>
     <div class="post-divide-line"></div>
   </div>
@@ -28,12 +29,7 @@ import compo from '@/components/shopping-page-item'
 export default {
   data () {
     return {
-      items: [],
-      cart_items: [
-        {img: '/static/images/buou.jpg', name: 'Buou photo', price: '$5000', sellor: 'Shey', position: '', path: '../../itemPages/buou/main'},
-        {img: '/static/images/jumao.jpeg', name: 'Jucat photo', price: '$1000', sellor: 'Shey', position: '', path: '../../itemPages/jumao/main'},
-        {img: '/static/images/yingduan.jpg', name: 'Yingduan photo', price: '$3000', sellor: 'Shey', position: '', path: '../../itemPages/yingduan/main'}
-      ]
+      items: []
     }
   },
   components: {
@@ -47,9 +43,9 @@ export default {
   },
   onShow () {
     this.$ajax.get({
-      url: 'http://203.195.164.28:3000/api/item/'
+      url: 'http://203.195.164.28:3000/api/item/purchased/' + wx.getStorageSync('openid')
     }).then((res) => {
-      this.items = res.data.resultMessage
+      this.items = res.data.recart
       console.log(this.items)
       setTimeout(() => {
         this.freshPos = 0
