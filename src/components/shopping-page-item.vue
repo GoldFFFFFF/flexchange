@@ -14,7 +14,7 @@
           </div>
           <div class='seller_name'>
             <!-- <span style="font-size=15px;">Seller: {{seller}}</span> -->
-            <span style="font-size=15px;">Seller:Lingyun</span>
+            <span style="font-size=15px;">Seller:{{sellername}}</span>
           </div>
         </div>
       </div>
@@ -53,11 +53,15 @@ export default {
     },
     name: {
       type: String
+    },
+    itemId: {
+      type: String
     }
   },
   data () {
     return {
-      isHidden: false
+      isHidden: false,
+      sellername: ''
     }
   },
   methods: {
@@ -68,15 +72,27 @@ export default {
         this.isShow = true
       }
     },
-    // bindItemPage (path) {
-    //   const url = path
-    //   wx.navigateTo({url})
-    // },
     goToDetail () {
       wx.navigateTo({
-        url: '/pages/item/main?price=' + this.price + '&imgUrl=' + this.imgUrl + '&description=' + this.description + '&type=' + this.type + '&father=shoppingCar'
+        url: '/pages/item/main?price=' + this.price + '&imgUrl=' + this.imgUrl + '&description=' + this.description + '&type=' + this.type + '&father=shoppingCar&itemId=' + this.itemId
       })
     }
+  },
+  onLoad () {
+    console.log(this.name)
+    let form = {
+      _id: this.seller
+    }
+    this.$ajax.post({
+      token: this.token,
+      data: form,
+      url: `http://www.flexange.cn:3000/getname`
+    }).then((res) => {
+      console.log(this.seller)
+      console.log(res.data)
+      this.sellername = res.data
+    }
+    )
   }
 }
 </script>

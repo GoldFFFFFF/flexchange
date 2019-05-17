@@ -1,23 +1,15 @@
 <template>
 <div>
-  <div class='title'>
-    <div class='title-name'>
-      <span>Waiting to buy</span>
-    </div>
-
-    <div class='button' >
-      <button type="default" size="mini" bindtap="default" @click="bingEdit"> Edit</button>
-    </div>
-
-  </div>
+  <div class="post-divide-line"></div>
   <div class='' v-for='item in items' :key=item.name>
     <shopCar :imgUrl='item.imgUrl' 
-             :name='item.name'
-             :price='item.price'
-             :type='item.type'
-             :description='item.description'
-             :status='item.status'
-             :itemId='item._id'>
+                    :name='item.name' 
+                    :price='item.price' 
+                    :type='item.type'
+                    :description='item.description'
+                    :status='item.status'
+                    :itemId='item._id'
+             :seller='item.user'>
     </shopCar>
     <div class="post-divide-line"></div>
   </div>
@@ -31,34 +23,19 @@ import shopCar from '@/components/shopping-page-item'
 export default {
   data () {
     return {
-      items: [],
-      cart_items: [
-        {img: '/static/images/Yukino.jpg', name: 'Yukinooos photo', price: '100', seller: 'Lingyun', path: '../itemPages/yukino/main'},
-        {img: '/static/images/wolaopo.jpg', name: 'wolaopos photo', price: '9999', seller: 'Lingyun', path: '../itemPages/wolaopo/main'},
-        {img: '/static/images/mengwang.jpg', name: 'Mengwang photo', price: '199', seller: 'Lingyun', path: '../itemPages/mengwang/main'},
-        {img: '/static/images/huiye.jpg', name: 'huiye photo', price: '99', seller: 'Lingyun', path: '../itemPages/huiye/main'},
-        {img: '/static/images/qianhua.jpg', name: 'qianhua photo', price: '299', seller: 'Lingyun', path: '../itemPages/qianhua/main'},
-        {img: '/static/images/qianfantian.jpg', name: 'qianfantian photo', price: '399', seller: 'Lingyun', path: '../itemPages/qianfantian/main'}
-      ]
+      items: []
     }
   },
   components: {
     shopCar
   },
-  methods: {
-    bingEdit () {
-      const url = '../edit/main'
-      wx.navigateTo({url})
-    }
-  },
   onShow () {
     this.$ajax.get({
       token: this.token,
-      // data: wx.getStorageSync('openid'),
       url: 'http://203.195.164.28:3000/api/item/cart/' + wx.getStorageSync('openid')
     }).then((res) => {
       this.items = res.data.recart
-      console.log(this.items)
+      console.log(res.data.recart)
       setTimeout(() => {
         this.freshPos = 0
       }, 300)

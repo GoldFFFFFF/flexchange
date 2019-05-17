@@ -31,14 +31,14 @@
       </div>
       <div  id="info-text-area" >{{description}}</div>
     </div>
-    <button v-if="father=='homePage'" id="add-button" @click="addTocar">
-      add to Shoping Car
-    </button>
-    <div v-else id='contect-and-delete'>
+    <div id='contect-and-delete'>
       <button id="add-button2" @click="contactSeller">
         Contact Seller
       </button> 
-      <button id="add-button2" @click="deleteFromCar">
+      <button v-if="father=='homePage'" id="add-button2" @click="addTocar">
+      Buy it later
+      </button>
+      <button v-else id="add-button2" @click="deleteFromCar">
         Delete
       </button>     
     </div>
@@ -49,6 +49,9 @@
 
 export default {
   props: {
+    itemId: {
+      type: String
+    },
     description: {
       type: String
     },
@@ -79,45 +82,71 @@ export default {
   },
   methods: {
     addTocar () {
-      wx.showToast({
-        title: 'Added success',
-        duration: 1200
+      console.log(this.itemId)
+      this.$ajax.get({
+        url: 'http://203.195.164.28:3000/api/user/cart/' + wx.getStorageSync('openid') + '/' + this.itemId
+      }).then((res) => {
+        console.log(res.data.resultMessage)
+        wx.showToast({
+          title: 'Added success',
+          duration: 1200
+        })
+        setTimeout(() => {
+          this.freshPos = 0
+        }, 300)
+        wx.hideToast()
+      }).catch((err) => {
+        console.log(err)
+        setTimeout(() => {
+          this.freshPos = 0
+        }, 300)
+        wx.hideToast()
       })
-      // let form = {
-      //   item_id: this.item_id
-      // }
-      // this.$ajax.post({
-      //   token: this.token,
-      //   data: form,
-      //   url: `http://www.flexange.cn:3000/api/user/`
-      // }).then((res) => {
-      //   wx.hideToast()
-      //   if (res.statusCode === 200) {
-      //     wx.showToast({
-      //       title: 'Post Success',
-      //       duration: 1200
-      //     })
-      //     setTimeout(() => {
-      //       this.$emit('added')
-      //     }, 400)
-      //   } else {
-      //     wx.showToast({
-      //       title: 'Add Fail,Please try again',
-      //       image: '/static/icons/fail.png'
-      //     })
-      //   }
-      // })
     },
     deleteFromCar () {
       wx.showToast({
         title: 'Delete success',
         duration: 1200
       })
+      console.log(wx.getStorageSync('openid'))
+      console.log(this.itemId)
+      this.$ajax.delete({
+        url: 'http://203.195.164.28:3000/api/item/cartd/' + wx.getStorageSync('openid') + '/' + this.itemId
+      }).then((res) => {
+        console.log(res.data)
+        setTimeout(() => {
+          this.freshPos = 0
+        }, 300)
+        wx.hideToast()
+      }).catch((err) => {
+        console.log(err)
+        setTimeout(() => {
+          this.freshPos = 0
+        }, 300)
+        wx.hideToast()
+      })
     },
     contactSeller () {
       wx.showToast({
-        title: 'Contact success',
+        title: 'contact success',
         duration: 1200
+      })
+      console.log(wx.getStorageSync('openid'))
+      console.log(this.itemId)
+      this.$ajax.get({
+        url: 'http://203.195.164.28:3000/api/user/purchased/' + wx.getStorageSync('openid') + '/' + this.itemId
+      }).then((res) => {
+        console.log(res.data.resultMessage)
+        setTimeout(() => {
+          this.freshPos = 0
+        }, 300)
+        wx.hideToast()
+      }).catch((err) => {
+        console.log(err)
+        setTimeout(() => {
+          this.freshPos = 0
+        }, 300)
+        wx.hideToast()
       })
     }
   },
