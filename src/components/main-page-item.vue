@@ -45,16 +45,8 @@ export default {
   methods: {
     goToDetail () {
       wx.navigateTo({
-        url: '/pages/item/main?price=' + this.price + '&imgUrl=' + this.imgUrl + '&description=' + this.description + '&type=' + this.type + '&itemId=' + this.itemId + '&father=homePage'
+        url: '/pages/item/main?price=' + this.price + '&imgUrl=' + this.imgUrl + '&description=' + this.description + '&type=' + this.type + '&itemId=' + this.itemId + '&father=homePage&seller=' + this.seller
       })
-    },
-    bindDetails (path) {
-      const url = path
-      wx.navigateTo({url})
-    }
-  },
-  data: {
-    return () {
     }
   }
 }
