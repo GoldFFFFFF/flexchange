@@ -3,11 +3,12 @@
     <detail :description="description"
           :name="name" 
           :price="price"
-          :seller="seller" 
+          :sellername="sellername" 
           :imgUrl="imgUrl"
           :type="type"
-          :itemId='itemId'
-          :father='father'>
+          :itemId="itemId"
+          :father="father"
+          :userImg="userImg">
     </detail>
   </div>
 </template>
@@ -24,15 +25,13 @@ export default {
       price: '',
       description: '',
       status: '',
-      seller: ''
+      seller: '',
+      userImg: '',
+      sellername: ''
     }
   },
   components: {
     detail
-  },
-
-  created () {
-    // let app = getApp()
   },
   onLoad: function (options) {
     this.type = options.type
@@ -44,6 +43,14 @@ export default {
     this.status = options.status
     this.seller = options.seller
     this.father = options.father
+    this.$ajax.get({
+      token: this.token,
+      url: `http://www.flexange.cn:3000/api/user/` + this.seller
+    }).then((res) => {
+      this.sellername = res.data.resultMessage.username
+      this.userImg = res.data.resultMessage.imgUrl
+    }
+    )
   }
 
 }

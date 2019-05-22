@@ -10,19 +10,7 @@
     "pages/filter/main",
     "pages/shoppingCar/main",
     "pages/search/main",
-    "pages/edit/main",
-    "pages/item/main",
-    "pages/itemPages/wolaopo/main",
-    "pages/itemPages/yukino/main",
-    "pages/itemPages/huiye/main",
-    "pages/itemPages/mengwang/main",
-    "pages/itemPages/qianhua/main",
-    "pages/itemPages/qianfantian/main",
-    "pages/itemPages/buou/main",
-    "pages/itemPages/jumao/main",
-    "pages/itemPages/yingduan/main",
-    "pages/itemPages/pen/main",
-    "pages/itemPages/jiafei/main"
+    "pages/item/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

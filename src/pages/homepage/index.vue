@@ -29,7 +29,8 @@
                     :type='item.type'
                     :description='item.description'
                     :status='item.status'
-                    :itemId='item._id'>
+                    :itemId='item._id'
+                    :seller='item.user'>
               </mainItem>
           </div>
       </div>

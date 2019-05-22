@@ -9,7 +9,7 @@
                     :description='item.description'
                     :status='item.status'
                     :itemId='item._id'
-             :seller='item.user'>
+                    :seller='item.user'>
     </shopCar>
     <div class="post-divide-line"></div>
   </div>

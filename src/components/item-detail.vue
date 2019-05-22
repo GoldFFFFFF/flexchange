@@ -7,8 +7,8 @@
       </div>
       <div class='sellor-info'>
         <div class='sellor-photo-name'>
-          <img src='/static/images/user.png' class='sellor-photo'>
-          <span style="padding:20px">{{seller}}</span>
+          <image :src='userImg' class='sellor-photo'></image>
+          <span style="padding:20px">{{sellername}}</span>
         </div>
         <div class='price-part'>
           <div class='Item-price'>Price: 
@@ -19,7 +19,6 @@
           <div class='Item-type'>Type:
             <span style="padding-left:20px; font-size:16px;">{{type}}</span>
           </div>
-          <!-- <div class='type'>{{name}}</div> -->
         </div>
       </div>
     </div>
@@ -33,7 +32,7 @@
     </div>
     <div id='contect-and-delete'>
       <button id="add-button2" @click="contactSeller">
-        Contact Seller
+      Buy it now
       </button> 
       <button v-if="father=='homePage'" id="add-button2" @click="addTocar">
       Buy it later
@@ -55,7 +54,10 @@ export default {
     description: {
       type: String
     },
-    seller: {
+    sellername: {
+      type: String
+    },
+    userImg: {
       type: String
     },
     price: {
@@ -74,11 +76,6 @@ export default {
       type: String
     }
 
-  },
-  data () {
-    return {
-
-    }
   },
   methods: {
     addTocar () {
@@ -128,7 +125,7 @@ export default {
     },
     contactSeller () {
       wx.showToast({
-        title: 'contact success',
+        title: 'Buy success',
         duration: 1200
       })
       console.log(wx.getStorageSync('openid'))
@@ -149,9 +146,6 @@ export default {
         wx.hideToast()
       })
     }
-  },
-  created () {
-    console.log(this.father)
   }
 }
 </script>
@@ -185,6 +179,7 @@ export default {
 .sellor-photo{
   height:64px;
   width:64px;
+  border-radius: 50%;
 }
 .sellor-photo-name{
   display:flex;
